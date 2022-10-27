@@ -18,8 +18,7 @@
         $email    = mysqli_real_escape_string($con, $email);
         $password = stripslashes($_REQUEST['password']);
         $password = mysqli_real_escape_string($con, $password);
-        $create_datetime = date("Y-m-d H:i:s");
-        $query    = "INSERT into `users` (username, password, email, create_datetime)
+        $query    = "INSERT into `users` (username, password, email)
                      VALUES ('$username', '" . md5($password) . "', '$email', '$create_datetime')";
         $result   = mysqli_query($con, $query);
         if ($result) {
