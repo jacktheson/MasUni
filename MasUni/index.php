@@ -39,11 +39,6 @@
         <a href = "./login">
             Login
         </a>
-
-        <li>
-        <a href = "./register">
-            Register
-        </a>
     </ul>
 </body>
 
