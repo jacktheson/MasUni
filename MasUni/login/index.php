@@ -7,7 +7,7 @@
 </head>
 <body>
 <?php
-    require('db.php');
+    require('../../../util/info.php');
     session_start();
     // When form submitted, check and create user session.
     if (isset($_POST['username'])) {
@@ -27,7 +27,7 @@
         } else {
             echo "<div class='form'>
                   <h3>Incorrect Username/password.</h3><br/>
-                  <p class='link'>Click here to <a href='login.php'>Login</a> again.</p>
+                  <p class='link'>Click here to <a href='./'>Login</a> again.</p>
                   </div>";
         }
     } else {
@@ -37,7 +37,7 @@
         <input type="text" class="login-input" name="username" placeholder="Username" autofocus="true"/>
         <input type="password" class="login-input" name="password" placeholder="Password"/>
         <input type="submit" value="Login" name="submit" class="login-button"/>
-        <p class="link"><a href="registration.php">New Registration</a></p>
+        <p class="link"><a href="../register">New Registration</a></p>
   </form>
 <?php
     }
