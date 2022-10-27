@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-<?php 
+<?php
     require('../../../util/info.php');
     session_start();
     // When form submitted, check and create user session.
@@ -16,12 +16,15 @@
         $password = stripslashes($_REQUEST['password']);
         $password = mysqli_real_escape_string($con, $password);
         // Check user is exist in the database
-        $saltQuery = "SELECT 'salt' FROM `users` WHERE username='$username'";
-        $result = mysqli_query($con, $saltQuery) or die(mysql_error());
-        $salt = $result['salt'];
-        $hashedPassword = hashPassword($password, $salt);
-        $query = "SELECT * FROM 'users' WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
-        $result = mysqli_query($con, $query) or die(mysql_error());
+        $query    = "SELECT * FROM `USER_LOGIN` WHERE username='$username'
+                     AND password='" . md5($password) . "'";
+
+        if(mysqli_query($con, $query) == false)
+        {
+            die("mySQL query failed");
+        }
+
+        $result = mysqli_query($con, $query);
         $rows = mysqli_num_rows($result);
         if ($rows == 1) {
             $_SESSION['username'] = $username;
