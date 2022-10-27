@@ -18,8 +18,10 @@
         $email    = mysqli_real_escape_string($con, $email);
         $password = stripslashes($_REQUEST['password']);
         $password = mysqli_real_escape_string($con, $password);
-        $query    = "INSERT into `USER_LOGIN` (username, password, email)
-                     VALUES ('$username', '" . md5($password) . "', '$email')";
+        $salt = generateSalt();
+        $hashpassword = hashPassword($password,$salt);
+        $query    = "INSERT into `USER_LOGIN` (username, password, email, salt)
+                     VALUES ('$username', '$hashpassword', '$email', '$salt')";
         $result   = mysqli_query($con, $query);
         if ($result) {
             echo "<div class='form'>
