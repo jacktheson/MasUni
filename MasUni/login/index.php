@@ -1,40 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome To MasUni</title>
-  <link rel="stylesheet" href="login-page.css">
-  <script defer src="script.js"></script>
+    <meta charset="utf-8"/>
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css"/>
 </head>
-
 <body>
-  <main id="main-holder">
-    <h1 id="login-header">MasUni Login</h1>
-    
-    <div id="login-error-msg-holder">
-      <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
-    </div>
-    <form action="#" method="post" id="login-form">
-
-      <section>      
-	<label for="username">Username</label>  
-        <input id="username" name="username" type="text" placeholder="Username" autocomplete="username" required>
-      </section>
-            
-      <section>        
-        <label for="current-password">Password</label>
-        <input id="current-password" name="current-password" type="password" placeholder="Password" autocomplete="current-password" aria-describedby="password-constraints" required>
-        <button id="toggle-password" type="button" aria-label="Show password as plain text. Warning: this will display your password on the screen.">Show password</button>
-        <div id="password-constraints">Eight or more characters, with at least one&nbsp;lowercase and one uppercase letter.</div>
-      </section>
-
-      <button id="signin">Sign in</button>
-      
-    </form>
-  
-  </main>
+<?php 
+    require('../../../util/info.php');
+    session_start();
+    // When form submitted, check and create user session.
+    if (isset($_POST['username'])) {
+        $username = stripslashes($_REQUEST['username']);    // removes backslashes
+        $username = mysqli_real_escape_string($con, $username);
+        $password = stripslashes($_REQUEST['password']);
+        $password = mysqli_real_escape_string($con, $password);
+        // Check user is exist in the database
+        $saltQuery = "SELECT 'salt' FROM `users` WHERE username='$username'";
+        $result = mysqli_query($con, $saltQuery) or die(mysql_error());
+        $salt = $result['salt'];
+        $hashedPassword = hashPassword($password, $salt);
+        $query = "SELECT * FROM 'users' WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
+        $result = mysqli_query($con, $query) or die(mysql_error());
+        $rows = mysqli_num_rows($result);
+        if ($rows == 1) {
+            $_SESSION['username'] = $username;
+            // Redirect to user dashboard page
+            header("Location: dashboard.php");
+        } else {
+            echo "<div class='form'>
+                  <h3>Incorrect Username/password.</h3><br/>
+                  <p class='link'>Click here to <a href='./'>Login</a> again.</p>
+                  </div>";
+        }
+    } else {
+?>
+    <form class="form" method="post" name="login">
+        <h1 class="login-title">Login</h1>
+        <input type="text" class="login-input" name="username" placeholder="Username" autofocus="true"/>
+        <input type="password" class="login-input" name="password" placeholder="Password"/>
+        <input type="submit" value="Login" name="submit" class="login-button"/>
+        <p class="link"><a href="../register">New Registration</a></p>
+  </form>
+<?php
+    }
+?>
 </body>
-
 </html>
