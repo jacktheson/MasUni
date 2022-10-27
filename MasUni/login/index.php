@@ -18,7 +18,13 @@
         // Check user is exist in the database
         $query    = "SELECT * FROM `USER_LOGIN` WHERE username='$username'
                      AND password='" . md5($password) . "'";
-        $result = mysqli_query($con, $query) or die();
+
+        if(mysqli_query($con, $query) == false)
+        {
+            die("mySQL query failed");
+        }
+
+        $result = mysqli_query($con, $query);
         $rows = mysqli_num_rows($result);
         if ($rows == 1) {
             $_SESSION['username'] = $username;
