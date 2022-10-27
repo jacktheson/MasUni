@@ -16,7 +16,7 @@
         $password = stripslashes($_REQUEST['password']);
         $password = mysqli_real_escape_string($con, $password);
         // Check user is exist in the database
-        $saltQuery = "SELECT 'salt' FROM `users` WHERE username='$username'";
+        $saltQuery = "SELECT 'salt' FROM `USER_LOGIN` WHERE username='$username'";
 
         if(mysqli_query($con, $saltQuery) == false)
         {
@@ -26,7 +26,7 @@
         $result = mysqli_query($con, $saltQuery);
         $salt = $result['salt'];
         $hashedPassword = hashPassword($password, $salt);
-        $query = "SELECT * FROM 'users' WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
+        $query = "SELECT * FROM 'USER_LOGIN' WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
 
         if(mysqli_query($con, $query) == false)
         {
