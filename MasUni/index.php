@@ -28,11 +28,24 @@
 
 <body>
 <h3>Quick Links</h3>
-<nav>
-    <a href=""> Home </a>
-    <a href ="./login"> </a>
+<ul>
+        <li> 
+        <a href = "">
+            Home Page
+        </a>
+        </li>
 
-</nav>
+        <li>
+        <a href = "./login">
+            Login
+        </a>
+
+        <li>
+        <a href = "./register">
+            Register
+        </a>
+    </ul>
 </body>
+
 
 </html>

@@ -18,15 +18,15 @@
         $email    = mysqli_real_escape_string($con, $email);
         $password = stripslashes($_REQUEST['password']);
         $password = mysqli_real_escape_string($con, $password);
-        $salt = generateSalt();
-        $hashpassword = hashPassword($password,$salt);
-        $query    = "INSERT into `USER_LOGIN` (username, password, email, salt)
-                     VALUES ('$username', '$hashpassword', '$email', '$salt')";
+	$salt = generateSalt();
+        $hashedPassword = hashPassword($password, $salt);
+        $query    = "INSERT into `USER_LOGIN` (username, hashedPassword, email, salt)
+                     VALUES ('$username', '$hashedPassword', '$email' , '$salt')";
         $result   = mysqli_query($con, $query);
         if ($result) {
             echo "<div class='form'>
                   <h3>You are registered successfully.</h3><br/>
-                  <p class='link'>Click here to <a href='login.php'>Login</a></p>
+                  <p class='link'>Click here to <a href='../login'>Login</a></p>
                   </div>";
         } else {
             echo "<div class='form'>
