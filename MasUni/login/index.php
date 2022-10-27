@@ -17,11 +17,23 @@
         $password = mysqli_real_escape_string($con, $password);
         // Check user is exist in the database
         $saltQuery = "SELECT 'salt' FROM `users` WHERE username='$username'";
-        $result = mysqli_query($con, $saltQuery) or die(mysql_error());
+
+        if(mysqli_query($con, $saltQuery) == false)
+        {
+            die("mySQL query salt failed");
+        }
+
+        $result = mysqli_query($con, $saltQuery);
         $salt = $result['salt'];
         $hashedPassword = hashPassword($password, $salt);
         $query = "SELECT * FROM 'users' WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
-        $result = mysqli_query($con, $query) or die(mysql_error());
+
+        if(mysqli_query($con, $query) == false)
+        {
+            die("mySQL query failed");
+        }
+
+        $result = mysqli_query($con, $query);
         $rows = mysqli_num_rows($result);
         if ($rows == 1) {
             $_SESSION['username'] = $username;
