@@ -7,7 +7,7 @@
 </head>
 <body>
 <?php
-    require('db.php');
+    require('../../../util/info.php');
     // When form submitted, insert values into the database.
     if (isset($_REQUEST['username'])) {
         // removes backslashes
@@ -29,7 +29,7 @@
         } else {
             echo "<div class='form'>
                   <h3>Required fields are missing.</h3><br/>
-                  <p class='link'>Click here to <a href='registration.php'>registration</a> again.</p>
+                  <p class='link'>Click here to <a href='./'>registration</a> again.</p>
                   </div>";
         }
     } else {
@@ -40,7 +40,7 @@
         <input type="text" class="login-input" name="email" placeholder="Email Adress">
         <input type="password" class="login-input" name="password" placeholder="Password">
         <input type="submit" name="submit" value="Register" class="login-button">
-        <p class="link"><a href="login.php">Click to Login</a></p>
+        <p class="link"><a href="../login">Click to Login</a></p>
     </form>
 <?php
     }
