@@ -11,39 +11,16 @@
     session_start();
     // When form submitted, check and create user session.
     if (isset($_POST['username'])) {
-        $username = stripslashes($_REQUEST['username']);    // removes backslashes
-        $username = mysqli_real_escape_string($con, $username);
-        $password = stripslashes($_REQUEST['password']);
-        $password = mysqli_real_escape_string($con, $password);
-        // Check user is exist in the database
-        $saltQuery = "SELECT 'salt' FROM `USER_LOGIN` WHERE username='$username'";
-
-        if(mysqli_query($con, $saltQuery) == false)
-        {
-            die("mySQL query salt failed");
-        }
-
-        $result = mysqli_query($con, $saltQuery);
-        $salt = $result['salt'];
-        $hashedPassword = hashPassword($password, $salt);
-        $query = "SELECT * FROM 'USER_LOGIN' WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
-
-        if(mysqli_query($con, $query) == false)
-        {
-            die("mySQL query failed");
-        }
-
-        $result = mysqli_query($con, $query);
-        $rows = mysqli_num_rows($result);
-        if ($rows == 1) {
+        if (loginCorrect($_REQUEST['username'], $_REQUEST['password'])) {
             $_SESSION['username'] = $username;
             // Redirect to user dashboard page
-            header("Location: dashboard.php");
+            header("Location: ../dashboard");
         } else {
             echo "<div class='form'>
                   <h3>Incorrect Username/password.</h3><br/>
                   <p class='link'>Click here to <a href='./'>Login</a> again.</p>
                   </div>";
+            echo $hashedPassword . "<br/>" . $salt;
         }
     } else {
 ?>

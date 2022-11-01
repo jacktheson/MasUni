@@ -18,8 +18,8 @@
    <h3 style = "font-weight: normal">
     Our Goal:
    </h3>
-   <p style = "text-align:left" style = "font-weight:bold"> Connect students with gigs <br>
-to companies that need contract work done. </p>
+   <p style = "text-align:left" style = "font-weight:bold"> Connect companies with gigs <br>
+   to prospective students across the country</p>
    
 
 </body>
@@ -44,13 +44,6 @@ to companies that need contract work done. </p>
         <a href = "./register">
             Register
         </a>
-
-        <li>
-            <a href = "./students">
-                All Currently Registered Students
-            </a>
-        </li>
-
     </ul>
 </body>
 

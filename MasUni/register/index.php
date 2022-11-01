@@ -10,27 +10,18 @@
     require('../../../util/info.php');
     // When form submitted, insert values into the database.
     if (isset($_REQUEST['username'])) {
-        // removes backslashes
-        $username = stripslashes($_REQUEST['username']);
-        //escapes special characters in a string
-        $username = mysqli_real_escape_string($con, $username);
-        $email    = stripslashes($_REQUEST['email']);
-        $email    = mysqli_real_escape_string($con, $email);
-        $password = stripslashes($_REQUEST['password']);
-        $password = mysqli_real_escape_string($con, $password);
-	$salt = generateSalt();
-        $hashedPassword = hashPassword($password, $salt);
-        $query    = "INSERT into `USER_LOGIN` (username, hashedPassword, email, salt)
-                     VALUES ('$username', '$hashedPassword', '$email' , '$salt')";
-        $result   = mysqli_query($con, $query);
-        if ($result) {
+	$u = $_REQUEST['username'];
+	$e = $_REQUEST['email'];
+	$p = $_REQUEST['password'];
+        $madeAccount = createAccount($u, $e, $p);
+        if ($madeAccount) {
             echo "<div class='form'>
                   <h3>You are registered successfully.</h3><br/>
                   <p class='link'>Click here to <a href='../login'>Login</a></p>
                   </div>";
         } else {
             echo "<div class='form'>
-                  <h3>Required fields are missing.</h3><br/>
+                  <h3>Your username may already be taken. Pick a new one.</h3><br/>
                   <p class='link'>Click here to <a href='./'>registration</a> again.</p>
                   </div>";
         }
