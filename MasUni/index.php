@@ -44,6 +44,12 @@
         <a href = "./register">
             Register
         </a>
+
+        <li>
+            <a href = "./students">
+                All Students
+            </a>
+        </li>
     </ul>
 </body>
 
