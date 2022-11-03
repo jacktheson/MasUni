@@ -1,6 +1,6 @@
 <?php
 include 'info.php';
-$query = "SELECT first_name, last_name, university, graduation,   FROM USER_DATA";
+$query = "SELECT first_name, last_name, university, graduation, primary_major   FROM USER_DATA";
 $result = queryDatabase($query); 
 if($result -> num_rows > 0)
 {
@@ -11,4 +11,4 @@ if($result -> num_rows > 0)
 }
 echo "0 results found";
 
-?>
+?>  
