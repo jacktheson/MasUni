@@ -36,7 +36,7 @@ function cleanUserInput($val){
 function queryDatabase($query){ 
     $con = sql_connection();
     $res = $con->query($query);
-    if(!queryResponse) die('Error: ' . mysqli_error($con));
+    if(!querySucceeded($query)) die('Error: ' . mysqli_error($con));
     $con->close();
     return $res;
 }
@@ -85,7 +85,7 @@ function createStudent($first, $last, $major, $minor, $skills, $year){
     $query = "INSERT into 'USER_DATA' (first_name,last_name,primary_major,primary_minor,skills,graduation_year)
             VALUES ('$first','$last','$major','$minor','$skills','$year')";
     $result = queryDatabase($query);
-return $result != FALSE;
+    return $result != FALSE;
 }
 
 function checkAdmin($username){
@@ -99,7 +99,5 @@ function checkAdmin($username){
     } else {
         return FALSE;
     }
-
-
 }
 ?>

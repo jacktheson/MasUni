@@ -27,5 +27,4 @@ if(checkAdmin($_REQUEST['username'])){
     </div>
 <?php
 }
-
 ?>
