@@ -75,15 +75,17 @@ function loginCorrect($username, $password){
     }
 }
 
-function createStudent($first, $last, $major, $minor, $skills, $year){
+function createStudent($first, $last, $uni, $major, $minor, $skills, $year, $month){
     $first = cleanUserInput($first);
     $last = cleanUserInput($last);
     $major = cleanUserInput($major);
     $minor = cleanUserInput($minor);
     $skills = cleanUserInput($skills);
     $year = cleanUserInput($year);
-    $query = "INSERT into 'USER_DATA' (first_name,last_name,primary_major,primary_minor,skills,graduation_year)
-            VALUES ('$first','$last','$major','$minor','$skills','$year')";
+    $month = cleanUserInput($month);
+    $uni = cleanUserInput($uni);
+    $query = "INSERT into 'USER_DATA' (first_name,last_name,univeristy,primary_major,primary_minor,skills,graduation_year,graduation_month)
+            VALUES ('$first','$last','$uni','$major','$minor','$skills','$month','$year')";
     $result = queryDatabase($query);
     return $result != FALSE;
 }

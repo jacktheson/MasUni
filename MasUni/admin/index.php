@@ -2,6 +2,21 @@
 session_start();
 require('../../../util/info.php');
 if(checkAdmin($_SESSION['username'])){
+    if (isset($_REQUEST['First Name'])){
+        $madeAccount = createStudent($_REQUEST['First Name'],$_REQUEST['Last Name'],$_REQUEST['Prefered Name'],$_REQUEST['Univeristy'],
+        $_REQUEST['Major'],$_REQUEST['Minor'],$_REQUEST['Skills'],$_REQUEST['Grad Month'],$_REQUEST['Grad Year']);
+        if ($madeAccount) {
+            echo "<div class='form'>
+                  <h3>You created a Student!.</h3><br/>
+                  <p class='link'>Click here to return to <a href='../admin'>Admin Panel</a>.</p>
+                  </div>";
+        } else {
+            echo "<div class='form'>
+                  <h3>Failure to Create Student</h3><br/>
+                  <p class='link'>Click here to try <a href='./'>again</a>.</p>
+                  </div>";
+        }
+    }else{
 ?>
 <!DOCTYPE html>
 <head>
@@ -23,6 +38,7 @@ if(checkAdmin($_SESSION['username'])){
     <input type="submit" name="Submit" value="Register">
 </form>
 <?php
+    }
 }else{ ?>
     <div>
          <h3>Sorry, you are not an admin</h3>
