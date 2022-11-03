@@ -5,7 +5,6 @@
     <h1 style = "text-align:left">
         MasUni
     </h1>
-
     <h2 style = "font-weight: normal">
         Welcome To MasUni
     </h2>
@@ -21,11 +20,7 @@
    <p style = "text-align:left" style = "font-weight:bold"> Connect companies with gigs <br>
    to prospective students across the country</p>
    
-
 </body>
-
-
-
 <body>
 <h3>Quick Links</h3>
 <ul>
@@ -34,24 +29,24 @@
             Home Page
         </a>
         </li>
-
         <li>
         <a href = "./login">
             Login
         </a>
-
         <li>
         <a href = "./register">
             Register
         </a>
-
         <li>
             <a href = "./students">
                 All Students
             </a>
         </li>
+	<li>
+	    <a href = "./admin">
+		Admin Login
+	    </a>
+	</li>
     </ul>
 </body>
-
-
 </html>
