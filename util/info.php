@@ -83,7 +83,7 @@ function createStudent($first, $last, $uni, $major, $minor, $skills, $year, $mon
     $year = cleanUserInput($year);
     $month = cleanUserInput($month);
     $uni = cleanUserInput($uni);
-    $query = "INSERT into 'USER_DATA' (first_name,last_name,univeristy,primary_major,primary_minor,skills,graduation_year,graduation_month)
+    $query = "INSERT into `USER_DATA` (`first_name`,`last_name`,`university`,`primary_major`,`primary_minor`,`skills`,`graduation_year`,`graduation_month`)
             VALUES ('$first','$last','$uni','$major','$minor','$skills','$month','$year')";
     $result = queryDatabase($query);
     return $result != FALSE;
