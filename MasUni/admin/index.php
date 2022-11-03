@@ -1,7 +1,7 @@
 <?php 
 session_start();
 require('../../../util/info.php');
-if(checkAdmin($_REQUEST['username'])){
+if(checkAdmin($_SESSION['username'])){
 ?>
 <!DOCTYPE html>
 <head>
@@ -13,10 +13,13 @@ if(checkAdmin($_REQUEST['username'])){
     <h1>Student Profile Creation</h1>
     <input type="text" name="First Name" placeholder="Student Name" required/>
     <input type="text" name="Last Name" placeholder="Student Name" required/>
+    <input type="text" name="Prefered Name" placeholder="Prefered Name" required/>
+    <input type="text" name="University" placeholder="Unviersity" required/>
     <input type="text" name="Major" placeholder="Major" required/>
     <input type="text" name="Minor" placeholder="Minor" />
     <input type="text" name="Skills" placeholder="Skills" required/>
-    <input type="text" name="Year" placeholder="Year" required/>
+    <input type="text" name="Grad Month" placeholder="Grad Month" required/>
+    <input type="text" name="Grad Year" placeholder="Grad Year" required/>
     <input type="submit" name="Submit" value="Register">
 </form>
 <?php
