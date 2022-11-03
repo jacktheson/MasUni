@@ -14,6 +14,7 @@ include("auth_session.php");
         <p>Hey, <?php echo $_SESSION['username']; ?>!</p>
         <p>You are now user dashboard page.</p>
         <p><a href="logout.php">Logout</a></p>
+        <p><a href="./admin">Admin Login</a></p>
     </div>
 </body>
 </html>
