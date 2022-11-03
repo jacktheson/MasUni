@@ -36,15 +36,14 @@ function cleanUserInput($val){
 function queryDatabase($query){ 
     $con = sql_connection();
     $res = $con->query($query);
-    if(!querySucceeded($query)) die('Error: ' . mysqli_error($con));
+    if(!$res) die("Connection with database failed.");
+    if(!querySucceeded($res)) return FALSE;
     $con->close();
     return $res;
 }
 
 function querySucceeded($queryResponse) {
-    if(!$queryResponse) return FALSE;
-    if(mysqli_num_rows($queryResponse) > 0) return TRUE;
-    return FALSE;
+    return ($queryResponse->num_rows > 0);
 }
 
 function createAccount($username, $email, $password) {
