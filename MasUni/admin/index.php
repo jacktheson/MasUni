@@ -1,6 +1,7 @@
 <?php 
+session_start();
 require('../../../util/info.php');
-if(checkAdmin($_REQUEST['username'],$_REQUEST['password'])){
+if(checkAdmin($_REQUEST['username'])){
 ?>
 <!DOCTYPE html>
 <head>
@@ -19,12 +20,11 @@ if(checkAdmin($_REQUEST['username'],$_REQUEST['password'])){
     <input type="submit" name="Submit" value="Register">
 </form>
 <?php
-}else{
-    echo "<div>
-         <h3>Sorry your are not an admin</h3>
-         <p class='link'>Back to Homepage <a href='./dashboard</a><p/>
-         </div>";
+}else{ ?>
+    <div>
+         <h3>Sorry, you are not an admin</h3>
+         <p class='link'>Back to <a href='../dashboard'>Homepage</a>.<p/>
+    </div>
+<?php
 }
-
 ?>
-

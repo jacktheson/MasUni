@@ -42,7 +42,6 @@ function queryDatabase($query){
 }
 
 function querySucceeded($queryResponse) {
-    die(!$queryResponse . " | " . mysqli_num_rows($queryResponse) . " | ");
     if(!$queryResponse) return FALSE;
     if(mysqli_num_rows($queryResponse) > 0) return TRUE;
     return FALSE;
@@ -65,19 +64,17 @@ function loginCorrect($username, $password){
     $username = cleanUserInput($username);
     $password = cleanUserInput($password);
     $hashedPassword = hashPasswordForUser($password, $username);
-    die($hashedPassword);
-   
-    $con = sql_connection(); $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
+    $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
+    $con = sql_connection();
     $loginSuccess = mysqli_query($con, $query) or die("mySQL query failed");
     $con->close();
     if (mysqli_num_rows($loginSuccess) > 0){
-        die( $username . " | " . mysqli_num_rows($loginSuccess) . " | " . $loginSuccess->fetch_assoc()["hashedPassword"] . " | HHH");
         return TRUE;
     } else {
-        die($username . " | " . $loginSuccess->fetch_assoc()["hashedPassword"]);
         return FALSE;
     }
 }
+
 function createStudent($first, $last, $major, $minor, $skills, $year){
     $first = cleanUserInput($first);
     $last = cleanUserInput($last);
@@ -88,25 +85,19 @@ function createStudent($first, $last, $major, $minor, $skills, $year){
     $query = "INSERT into 'USER_DATA' (first_name,last_name,primary_major,primary_minor,skills,graduation_year)
             VALUES ('$first','$last','$major','$minor','$skills','$year')";
     $result = queryDatabase($query);
-return $result != FALSE;
+    return $result != FALSE;
 }
-function checkAdmin($username,$password){
+
+function checkAdmin($username){
     $username = cleanUserInput($username);
-    $password = cleanUserInput($password);
-    $hashedPassword = hashPasswordForUser($password, $username);
-    die($hashedPassword);
     $con = sql_connection();
-    $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND hashedPassword='$hashedPassword' AND WHERE isADMIN ='1'";
+    $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND inAdmin='1'";
     $loginSuccess = mysqli_query($con, $query) or die("mySQL query failed"); 
     $con->close();
     if (mysqli_num_rows($loginSuccess) > 0){
-        die( $username . " | " . mysqli_num_rows($loginSuccess) . " | " . $loginSuccess->fetch_assoc()["hashedPassword"] . " | HHH");
         return TRUE;
     } else {
-        die($username . " | " . $loginSuccess->fetch_assoc()["hashedPassword"]);
         return FALSE;
     }
-
-
 }
 ?>

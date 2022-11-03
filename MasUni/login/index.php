@@ -11,11 +11,10 @@
 <body>
 <?php 
     require('../../../util/info.php');
-    
     // When form submitted, check and create user session.
     if (isset($_POST['username'])) {
         if (loginCorrect($_REQUEST['username'], $_REQUEST['password'])) {
-            $_SESSION['username'] = $username;
+            $_SESSION['username'] = $_REQUEST['username'];
             // Redirect to user dashboard page
             header("Location: ../dashboard");
         } else {
@@ -23,7 +22,6 @@
                   <h3>Incorrect Username/password.</h3><br/>
                   <p class='link'>Click here to <a href='./'>Login</a> again.</p>
                   </div>";
-            echo $hashedPassword . "<br/>" . $salt;
         }
     } else {
 ?>
