@@ -35,7 +35,7 @@ if(checkAdmin($_SESSION['username'])){
     <input type="text" name="Skills" placeholder="Skills" required/>
     <input type="text" name="Grad Month" placeholder="Grad Month" required/>
     <input type="text" name="Grad Year" placeholder="Grad Year" required/>
-    <input type="submit" name="Submit" value="Register">
+    <input type="submit" name="submit" value="Profile-Create">
 </form>
 <?php
     }
