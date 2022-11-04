@@ -100,4 +100,3 @@ function checkAdmin($username){
         return FALSE;
     }
 }
-?>

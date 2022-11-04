@@ -3,7 +3,7 @@ session_start();
 require('../../../util/info.php');
 if(checkAdmin($_SESSION['username'])){
     if (isset($_REQUEST['FirstName'])){
-        $madeAccount = createStudent($_REQUEST['FirstName'],$_REQUEST['LastName'],$_REQUEST['PreferedName'],$_REQUEST['University'],
+        $madeAccount = createStudent($_REQUEST['FirstName'],$_REQUEST['LastName'],$_REQUEST['PreferedName'],$_REQUEST['Univeristy'],
         $_REQUEST['Major'],$_REQUEST['Minor'],$_REQUEST['Skills'],$_REQUEST['GradMonth'],$_REQUEST['GradYear']);
         if ($madeAccount) {
             echo "<div class='form'>
