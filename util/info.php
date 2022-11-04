@@ -74,27 +74,26 @@ function loginCorrect($username, $password){
     }
 }
 
-function createStudent($first, $last, $uni, $major, $minor, $skills, $year, $month){
+function createStudent($first, $last, $pref, $uni, $major, $minor, $skills, $month, $year){
     $first = cleanUserInput($first);
     $last = cleanUserInput($last);
+    $pref = cleanUserInput($pref);
+    $uni = cleanUserInput($uni);
     $major = cleanUserInput($major);
     $minor = cleanUserInput($minor);
     $skills = cleanUserInput($skills);
-    $year = cleanUserInput($year);
     $month = cleanUserInput($month);
-    $uni = cleanUserInput($uni);
-    $query = "INSERT into `USER_DATA` (`first_name`,`last_name`,`university`,`primary_major`,`primary_minor`,`skills`,`graduation_year`,`graduation_month`)
-            VALUES ('$first','$last','$uni','$major','$minor','$skills','$month','$year')";
+    $year = intval(cleanUserInput($year));
+    $query = "INSERT into `USER_DATA` (`first_name`,`last_name`,`preferred_name`,`university`,`primary_major`,`primary_minor`,`skills`,`graduation_month`, `graduation_year`)
+            VALUES ('$first','$last','$pref', '$uni','$major','$minor','$skills', '$month', $year)";
     $result = queryDatabase($query);
-    return $result != FALSE;
+    return TRUE;
 }
 
 function checkAdmin($username){
     $username = cleanUserInput($username);
-    $con = sql_connection();
     $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND inAdmin='1'";
-    $loginSuccess = mysqli_query($con, $query) or die("mySQL query failed"); 
-    $con->close();
+    $loginSuccess = queryDatabase($query); 
     if (mysqli_num_rows($loginSuccess) > 0){
         return TRUE;
     } else {
