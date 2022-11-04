@@ -6,7 +6,8 @@ if($result->num_rows > 0)
 {
     while ($row = $result -> fetch_assoc())
     {
-        echo $row["first_name"]. " ". $row["last_name"]. "<br>University: ". $row["university"]. "<br>Graduation Year: ". $row["graduation_year"]. "<br>Major: ". $row["primary_major"];
+        echo $row["first_name"]. " ". $row["last_name"]. "<br>University: ". $row["university"]. 
+        "<br>Graduation Year: ". $row["graduation_year"]. "<br>Major: ". $row["primary_major"];
 	echo "<br><br>";
     }
 }
