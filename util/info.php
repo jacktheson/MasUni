@@ -59,11 +59,39 @@ function createAccount($username, $email, $password) {
 	return $result != FALSE;
 }
 
+function createStudentAccount($username, $email, $password) {
+    // removes backslashes
+    $username = cleanUserInput($username);
+    $email    = cleanUserInput($password);
+    $password = cleanUserInput($email);
+    $salt = generateSalt();
+    $hashedPassword = hashPassword($password, $salt);
+    $query    = "INSERT into `USER_LOGIN` (username, hashedPassword, email, salt, isStudent)
+                 VALUES ('$username', '$hashedPassword', '$email' , '$salt','1')";
+    $result   = queryDatabase($query);
+    return $result != FALSE;
+}
+
 function loginCorrect($username, $password){
     $username = cleanUserInput($username);
     $password = cleanUserInput($password);
     $hashedPassword = hashPasswordForUser($password, $username);
     $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
+    $con = sql_connection();
+    $loginSuccess = mysqli_query($con, $query) or die("mySQL query failed");
+    $con->close();
+    if (mysqli_num_rows($loginSuccess) > 0){
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+function studentLoginCorrect($username, $password){
+    $username = cleanUserInput($username);
+    $password = cleanUserInput($password);
+    $hashedPassword = hashPasswordForUser($password, $username);
+    $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND hashedPassword='$hashedPassword' AND isStudent='1'"; 
     $con = sql_connection();
     $loginSuccess = mysqli_query($con, $query) or die("mySQL query failed");
     $con->close();
