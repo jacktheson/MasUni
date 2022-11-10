@@ -47,6 +47,11 @@
 		Admin Login
 	    </a>
 	</li>
+    li>
+	    <a href = "./studentportal">
+		Student Portal
+	    </a>
+	</li>
     </ul>
 </body>
 </html>
