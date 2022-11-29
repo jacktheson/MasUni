@@ -47,4 +47,31 @@ class TestFile implements File {
 	}
 	
 }
+
+class FileFactory(){
+	public function build($fileInfo) : ?File {
+		switch ($fileInfo["media_type"]) {
+			case "image":
+				return new ImageFile(
+					$fileInfo["fileID"],
+					$fileInfo["file_name"],
+					$fileInfo["position"]
+				);
+			case "video":
+				return new VideoFile(
+					$fileInfo["fileID"],
+					$fileInfo["file_name"],
+					$fileInfo["position"]
+				);
+			case "pdf":
+				return new PDFFile(
+					$fileInfo["fileID"],
+					$fileInfo["file_name"],
+					$fileInfo["position"]
+				);
+			default:
+				return null;
+		}
+	}
+}
 ?>
