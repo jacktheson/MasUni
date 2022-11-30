@@ -1,3 +1,6 @@
+<?php 
+  include "../../util/auth_sess.php";
+?>
 <!DOCTYPE html>
 
 <head>
@@ -18,10 +21,20 @@ to prospective students across the country.</p>
 </div>
 
 <div class="topnav">
-  <a href="./login">User Login</a>
+  <?php 
+    if (!isSet($_SESSION["user"])) {
+      echo "<a href='./login'>User Login</a>";
+    } else {
+      echo "<a href='./logout'>Logout</a>";
+    }
+  ?>
   <a href="./register">Register</a>
   <a href="./students">View All Students</a>
-  <a href="./admin" style="float:right">Admin Panel</a>
+  <?php 
+    if (isSet($_SESSION["user"]) and unserialize($_SESSION["user"])->isAdmin()) {
+      echo '<a href="./admin" style="float:right">Admin Panel</a>';
+    }
+  ?>
 </div>
 
 </body>

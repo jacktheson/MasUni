@@ -26,29 +26,31 @@ class DisplayStudent implements Display {
         $this->gradYear = $assoc["graduation_year"];
         $this->primMajor = $assoc["primary_major"];
         $this->userID = $assoc["loginID"];
-        $this->displayID = $assoc["userID"];
+        $this->displayID = $assoc["infoID"];
         $this->linkExt = $assoc["link_extension"];
         $this->filepath = $assoc["filepath"];
     }
 
-    private function displayPortfolio() {
+    public function displayPortfolio() {
         $portfolio = new Portfolio($this);
         $portfolio->displayPortfolio();
     }
 
     public function toHTMLPreview(){
-        $html = "<h5>" . $this->getName() . "</h5>";
+        $html = "<h3>" . $this->getName() . "</h3>";
         if ($this->getUniversity != null) {
-            $html = $html . "<br>College: " . $this->getUniversity();
+            $html = $html . "College: " . $this->getUniversity() . "<br>";
         }
         if ($this->getGraduationYear() != null) {
-            $html = $html . "<br>Graduation Year: " . $this->getGraduationYear();
+            $html = $html . "Graduation Year: " . $this->getGraduationYear() . "<br>";
         }
         if ($this->getPrimMajor() != null) {
-            $html = $html . "<br>Major: " . $this->getPrimMajor();
+            $html = $html . "Major: " . $this->getPrimMajor() . "<br>";
         }
-        $html = $html . "<a href=../portfolio/?p=" . $this->linkExt . "> Portfolio </a>";
-        echo $html . "<br><br>";
+        if (checkLinkExists($this->linkExt)) {
+            $html = $html . "<a href=../portfolio/?p=" . $this->linkExt . "> Portfolio </a><br>";
+        }
+        echo $html . "<br>";
     }
 
 

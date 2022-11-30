@@ -19,7 +19,7 @@ function createAccount($username, $email, $password) {
         </div>";
         return FALSE;
     }
-    if (!checkEmailUnique($email)){ 
+    if (checkEmailExists($email)){ 
         echo "<div class='form'>
         <h3>This email is already in use. Please pick a new one, or log into your old account.</h3><br/>
         <p class='link'>Click here to <a href='./'>registration</a> again.</p>
@@ -48,7 +48,7 @@ function createStudent($first, $last,
     $month = cleanUserInput($month);
     $year = intval(cleanUserInput($year));
     $linkExt = cleanUserInput($linkExt);
-    if (!checkUniqueLink($linkExt)) {
+    if (checkLinkExists($linkExt)) {
         return FALSE;
     }
     $query = "INSERT into `USER_DATA` (`first_name`,`last_name`,`preferred_name`,`university`,`primary_major`,`primary_minor`,`skills`,`graduation_month`, `graduation_year`,`link_extension`)

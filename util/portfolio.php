@@ -8,9 +8,13 @@ class Portfolio {
     private $student;
 
     // TODO: Make User class that will contain information about the current session user.
-    public function __construct(Student $student){
+    public function __construct(DisplayStudent $student){
         $this->student = $student;
-        $filesFromDb = queryUserFileList($this->student);
+        $this->tree = FileTree::OrderingTree();
+        $filesFromDB = queryDisplayFileList($this->student);
+        if ($filesFromDB == null) { 
+            return;
+        }
         while ($row = $filesFromDB->fetch_assoc())
         {
             $file = FileFactory::build($this->student, $row);

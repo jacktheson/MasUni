@@ -16,9 +16,9 @@ function checkAdmin($username) {
 function checkFieldEntryExists($field, $entry, $table) {
     $field = cleanUserInput($field);
     $entry = cleanUserInput($entry);
-    $query = "SELECT COUNT(*) FROM `$table` where `$field`='$entry'";
+    $query = "SELECT COUNT(*) as `total` FROM `$table` where `$field`='$entry'";
     $result = queryDatabase($query);
-    return $result->fetch_assoc["Count(*)"]  > 0;
+    return $result->fetch_assoc()["total"] > 0;
 }
 
 function checkLoginEntryExists($field, $entry) {
@@ -61,8 +61,8 @@ function queryDatabase($query) {
 }
 
 function queryDisplayFileList(Display $display) {
-    $displayID = cleanUserInput($display->getID());
-    $query = "SELECT * FROM `USER_FILES` WHERE `userID`='$displayID'";
+    $displayID = cleanUserInput($display->getDisplayID());
+    $query = "SELECT * FROM `USER_FILES` WHERE `displayID`=$displayID";
     $files = queryDatabase($query);
     return $files;
 }

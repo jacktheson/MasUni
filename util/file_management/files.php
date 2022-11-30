@@ -16,10 +16,10 @@ interface File {
 
 abstract class FileImplementation implements File {
 
-	private $filePath;
-	private $fileID;
-	private $filePosition;
-	private $fileName;
+	protected $filePath;
+	protected $fileID;
+	protected $filePosition;
+	protected $fileName;
 
 	public function __construct($fileID, $fileName, $filePosition, $filePath){
 		$this->fileID = $fileID;
@@ -47,7 +47,7 @@ abstract class FileImplementation implements File {
 
 class ImageFile extends FileImplementation {
 	public function toHTML() {
-		$image = "../../MasUni/" . $this->filePath;
+		$image = "../../../MasUni/" . $this->filePath;
 		// Read image path, convert to base64 encoding
 		$imageData = base64_encode(file_get_contents($image));
 
@@ -56,14 +56,15 @@ class ImageFile extends FileImplementation {
 
 		// Echo out a sample image
 		echo '<img src="' . $src . '">';
-
+		
 	}
 }
 
 class VideoFile extends FileImplementation {
 
 	public function toHTML() {
-		$vid = "../../MasUni/" . $this->filePath;
+
+		$vid = "../../../MasUni/" . $this->filePath;
 		// Read video path, convert to base64 encoding
 		$vidData = base64_encode(file_get_contents($vid));
 		
@@ -111,29 +112,29 @@ class TestFile implements File {
 }
 
 class FileFactory {
-	public static function build(Student $student, $fileInfo) {
-		$stuFolder = $student->getFolderName() . "/";
+	public static function build(DisplayStudent $student, $fileInfo) {
+		$stuFolder = $student->getFilepath() . "/";
 		switch ($fileInfo["media_type"]) {
 			case "image":
 				return new ImageFile(
 					$fileInfo["fileID"],
-					$fileInfo["file_name"],
+					$fileInfo["display_name"],
 					$fileInfo["position"],
-					$stuFolder . $fileInfo["path"]
+					$stuFolder . $fileInfo["file_name"]
 				);
 			case "video":
 				return new VideoFile(
 					$fileInfo["fileID"],
-					$fileInfo["file_name"],
+					$fileInfo["display_name"],
 					$fileInfo["position"],
-					$stuFolder . $fileInfo["path"]
+					$stuFolder . $fileInfo["file_name"]
 				);
 			case "pdf":
 				return new PDFFile(
 					$fileInfo["fileID"],
-					$fileInfo["file_name"],
+					$fileInfo["display_name"],
 					$fileInfo["position"],
-					$stuFolder . $fileInfo["path"]
+					$stuFolder . $fileInfo["file_name"]
 				);
 			default:
 				return null;

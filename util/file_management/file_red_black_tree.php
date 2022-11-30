@@ -12,26 +12,26 @@ class Node {
 	const RED = true;
 	const BLACK = false;
 
-	function __construct(File $nval){
+	public function __construct(File $nval){
 		$this->val = $nval;
 		$this->color = self::RED;
 		$this->left = null;
 		$this->right = null;
 	}
 	
-	function isRed(){
+	public function isRed(){
 		return $this->color == self::RED;
 	}
 	
-	function setBlack() {
+	public function setBlack() {
 		$this->color = self::BLACK;
 	}
 	
-	function setRed() {
+	public function setRed() {
 		$this->color = self::RED;
 	}
 
-	function __toString() {
+	public function __toString() {
 		return $this->val->__toString() . " " . strval($this->color);
 	}
 }
@@ -42,12 +42,12 @@ class FileTree
 	private $root = null;
 	private $comp;
 	
-	function __construct(FileComparator $compare){
+	public function __construct(FileComparator $compare){
 		$this->root = null;
 		$this->comp = $compare;
 	}
 	
-	function insert(File $f) {
+	public function insert(File $f) {
 		$this->root = $this->__insert($this->root, $f);
 		$this->root->setBlack();
 	}
@@ -120,7 +120,7 @@ class FileTree
 		return $newRoot;
 	}
 	
-	function inorder(Visitor $v) {
+	public function inorder(Visitor $v) {
 		$this->__inorder($v, $this->root);
 	}
 	
@@ -130,5 +130,9 @@ class FileTree
 		$v->visit($r->val);
 		$this->__inorder($v, $r->right);
 		
+	}
+
+	public static function OrderingTree(){
+		return new FileTree(new FileOrderingComparator());
 	}
 }

@@ -11,13 +11,13 @@
 include_once "../../../util/user_info.php";
 if (isSet($_GET["p"])) {
     $display = DisplayStudent::fromLink($_REQUEST["p"]);
-    if ($display === null) {
-        echo header("Location: ../students");
+    if ($display == null) {
+        echo header("Location: ../students/?e=fail-" . $_REQUEST["p"]);
     }
     $display->toHTMLPreview();
     $display->displayPortfolio();
 } else {
-    echo header("Location: ../students");
+    echo header("Location: ../students/?e=nosend");
 }
 ?>
 </body>

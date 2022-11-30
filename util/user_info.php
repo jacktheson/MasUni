@@ -65,7 +65,7 @@ class Viewer implements User {
 class UserFactory {
     public static function build($isStudent, $username, $userID, $admin) {
         if ($isStudent) {
-            return new Student($username, $userID, $admin);
+            return new UserStudent($username, $userID, $admin);
         } else {
             return new Viewer($username, $userID, $admin);
         }
