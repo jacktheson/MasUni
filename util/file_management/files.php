@@ -16,8 +16,8 @@ interface File {
 
 class TestFile implements File {
 	
-	public int $val;
-	
+	public $val;
+
 	public function __construct(int $val) {
 		$this->val = $val;
 	}
@@ -74,4 +74,3 @@ class FileFactory(){
 		}
 	}
 }
-?>

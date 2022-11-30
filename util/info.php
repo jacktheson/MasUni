@@ -2,6 +2,7 @@
 include_once "session_create.php";
 include_once "database_checks.php";
 include_once "account_utils.php";
+include_once "user_info.php";
 
 function createSalt() {
     return rand(0, 2147483647);
@@ -53,7 +54,7 @@ function createStudent($first, $last,
     return TRUE;
 }
 
-function beginLogin($username, $password) : User {
+function beginLogin($username, $password) {
     $username = cleanUserInput($username);
     $password = cleanUserInput($password);
     $hashedPassword = hashPasswordForUser($password, $username);
@@ -61,11 +62,13 @@ function beginLogin($username, $password) : User {
     $response = queryDatabase($query);
     if ($response){
         $userInfo = $response->fetch_assoc();
-        return new UserFactory()->($userInfo['isStudent'] == 1,
+	$factory = new UserFactory();
+        return $factory->build($userInfo['isStudent'] == 1,
                         $userInfo['username'],
                         $userInfo['userID'],
                         $userInfo['inAdmin'] == 1
                     );
+
     } else {
         return null;
     }

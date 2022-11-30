@@ -9,5 +9,3 @@ class OutputHTMLVisitor implements Visitor {
 		echo $f->toHTML();
 	}
 }
-
-?>

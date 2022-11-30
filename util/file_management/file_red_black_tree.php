@@ -4,10 +4,10 @@ include_once "files.php";
 include_once "visitor.php";
 
 class Node {
-	public ?Node $left;
-	public ?Node $right;
-	public bool $color;
-	public File $val;
+	public $left = null;
+	public $right = null;
+	public $color;
+	public $val;
 	
 	const RED = true;
 	const BLACK = false;
@@ -32,16 +32,15 @@ class Node {
 	}
 
 	function __toString() {
-		return $this->val . " " . strval($this->color);
+		return $this->val->__toString() . " " . strval($this->color);
 	}
 }
-
 
 class FileTree 
 {
 	
-	private ?Node $root;
-	private FileComparator $comp;
+	private $root = null;
+	private $comp;
 	
 	function __construct(FileComparator $compare){
 		$this->root = null;
@@ -53,7 +52,7 @@ class FileTree
 		$this->root->setBlack();
 	}
 	
-	function __insert(?Node $parent, File $file){
+	function __insert(Node $parent = null, File $file){
 		if ($parent === null){
 			return new Node($file);
 		}
@@ -69,11 +68,11 @@ class FileTree
 		
 		if ($this->__isRed($parent->right) and !($this->__isRed($parent->left))){
 			$parent = $this->__rotateLeft($parent);
-			print("Rotate Left" . " | " . strval($parent) . " | " . strval($parent->left) . " | " . strval($parent->right));
+			print("Rotate Left" . " | " . strval($parent) . " | " . strval($parent->left) . " | " . strval($parent->right) . "\n'");
 		}
 		if ($this->__doubleRed($parent->left)) {
 			$parent = $this->__rotateRight($parent);
-			print("Rotate Right");
+			print("Rotate Right". " | " . strval($parent) . " | " . strval($parent->left) . " | " . strval($parent->right) . "\n");
 		}
 		if ($this->__isRed($parent->left) and $this->__isRed($parent->right)) {
 			$parent = $this->__flipColor($parent);
@@ -89,12 +88,12 @@ class FileTree
 		return $n;
 	}
 	
-	function __doubleRed(?Node $n){
+	function __doubleRed(Node $n = null){
 		if ($n === null) { return false; }
 		return $this->__isRed($n) and $this->__isRed($n->left);
 	}
 	
-	function __isRed(?Node $n) {
+	function __isRed(Node $n = null) {
 		if ($n === null) {
 			return false;
 		}
@@ -125,7 +124,7 @@ class FileTree
 		$this->__inorder($v, $this->root);
 	}
 	
-	function __inorder(Visitor $v, ?Node $r){
+	function __inorder(Visitor $v, Node $r = null){
 		if ($r === null) return;
 		$this->__inorder($v, $r->left);
 		$v->visit($r->val);
@@ -133,4 +132,3 @@ class FileTree
 		
 	}
 }
-?>
