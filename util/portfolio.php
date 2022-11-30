@@ -12,8 +12,9 @@ class Portfolio {
     private static FileFactory $f_fctry = new FileFactory();
 
     // TODO: Make User class that will contain information about the current session user.
-    public function __construct(User $user, $filesFromDB){
+    public function __construct(User $user){
         $this->user = $user;
+        $filesFromDb = 
         while ($row = $filesFromDB-> fetch_assoc())
         {
             $file = this->f_fctry->build($row);

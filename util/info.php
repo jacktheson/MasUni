@@ -1,8 +1,8 @@
 <?php
 require("session_create.php");
 
-function hashPasswordForUser($password, $username) {
-    return hashPassword($password, getSaltFor($username));
+function hashPasswordForUser($password, $username) : int {
+    return hashPassword($password, querySaltFor($username));
 }
 
 function hashPassword($password, $salt){
@@ -12,11 +12,11 @@ function hashPassword($password, $salt){
     return $hash;
 }
 
-function generateSalt(){
+function generateSalt() : int {
     return rand(0, 2147483647);
 }
 
-function getSaltFor($username){
+function querySaltFor($username) : int {
     $con = sql_connection();
     $saltQuery = "SELECT `salt` FROM `USER_LOGIN` WHERE username='$username'";
     $result = mysqli_query($con, $saltQuery) or die("mySQL query salt failed");
@@ -25,7 +25,7 @@ function getSaltFor($username){
     return $salt;
 }
 
-function cleanUserInput($val){
+function cleanUserInput(string $val) : string {
     $val = stripslashes($val);
     $con = sql_connection();
     $rtrn = $con->real_escape_string($val);
@@ -33,25 +33,25 @@ function cleanUserInput($val){
     return $rtrn;
 }
 
-function queryDatabase($query){ 
+function queryDatabase(string $query) : bool { 
     $con = sql_connection();
     $res = $con->query($query);
     if(!$res) die("Connection with database failed.");
-    if(!querySucceeded($res)) return FALSE;
+    if(!checkQuerySucceeded($res)) return FALSE;
     $con->close();
     return $res;
 }
 
-function querySucceeded($queryResponse) {
+function checkQuerySucceeded($queryResponse) : bool {
     return ($queryResponse->num_rows > 0);
 }
 
-function createAccount($username, $email, $password) {
+function createAccount(string $username, string $email, string $password) : bool {
         // removes backslashes
         $username = cleanUserInput($username);
-        $email    = cleanUserInput($password);
-        $password = cleanUserInput($email);
-	$salt = generateSalt();
+        $email    = cleanUserInput($email);
+        $password = cleanUserInput($password);
+        $salt = generateSalt();
         $hashedPassword = hashPassword($password, $salt);
         $query    = "INSERT into `USER_LOGIN` (username, hashedPassword, email, salt)
                      VALUES ('$username', '$hashedPassword', '$email' , '$salt')";
@@ -59,22 +59,43 @@ function createAccount($username, $email, $password) {
 	return $result != FALSE;
 }
 
-function loginCorrect($username, $password){
+function checkLoginCorrect(string $username, string $password) : bool {
     $username = cleanUserInput($username);
     $password = cleanUserInput($password);
     $hashedPassword = hashPasswordForUser($password, $username);
     $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND hashedPassword='$hashedPassword'"; 
-    $con = sql_connection();
-    $loginSuccess = mysqli_query($con, $query) or die("mySQL query failed");
-    $con->close();
-    if (mysqli_num_rows($loginSuccess) > 0){
+    $loginSuccess = queryDatabase($query);
+    if ($loginSuccess and ){
         return TRUE;
     } else {
         return FALSE;
     }
 }
 
-function createStudent($first, $last, $pref, $uni, $major, $minor, $skills, $month, $year){
+function checkFieldEntryUnique(string $field, string $entry) : bool {
+    $field = cleanUserInput($field);
+    $entry = cleanUserInput($entry);
+    $query = "SELECT `$field` FROM `USER_LOGIN` where $field='$entry'";
+    $result = queryDatabase($query);
+    if ($result->num_rows == 0) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+function checkUsernameUnique(string $username) : bool {
+    return checkFieldEntryUnique("username", $username);
+}
+
+function checkEmailUnique(string $email) : bool {
+    return checkFieldEntryUnique("email", $email);
+}
+
+function createStudent(string $first, string $last,
+                    string $pref, string $uni, string $major,
+                    string $minor, string $skills, string $month,
+                    string $year) : bool {
     $first = cleanUserInput($first);
     $last = cleanUserInput($last);
     $pref = cleanUserInput($pref);
@@ -90,13 +111,17 @@ function createStudent($first, $last, $pref, $uni, $major, $minor, $skills, $mon
     return TRUE;
 }
 
-function checkAdmin($username){
+function checkAdmin($username) : bool {
     $username = cleanUserInput($username);
     $query = "SELECT * FROM `USER_LOGIN` WHERE username='$username' AND inAdmin='1'";
-    $loginSuccess = queryDatabase($query); 
-    if (mysqli_num_rows($loginSuccess) > 0){
+    $isAdmin = queryDatabase($query); 
+    if ($isAdmin){
         return TRUE;
     } else {
         return FALSE;
     }
+}
+
+function getUserFileList(User $user) {
+
 }

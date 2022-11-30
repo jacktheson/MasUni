@@ -13,7 +13,7 @@
     require('../../../util/info.php');
     // When form submitted, check and create user session.
     if (isset($_POST['username'])) {
-        if (loginCorrect($_REQUEST['username'], $_REQUEST['password'])) {
+        if (checkLoginCorrect($_REQUEST['username'], $_REQUEST['password'])) {
             $_SESSION['username'] = $_REQUEST['username'];
             // Redirect to user dashboard page
             header("Location: ../dashboard");
