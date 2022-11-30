@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Login</title>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="login-page.css"/>
 </head>
 <body>
 <?php 
@@ -26,12 +26,23 @@
         }
     } else {
 ?>
-    <form class="form" method="post" name="login">
-        <h1 class="login-title">Login</h1>
-        <input type="text" class="login-input" name="username" placeholder="Username" autofocus="true"/>
-        <input type="password" class="login-input" name="password" placeholder="Password"/>
-        <input type="submit" value="Login" name="submit" class="login-button"/>
-        <p class="link"><a href="../register">New Registration</a></p>
+<h2>MasUni User Login</h2>
+
+<form class="form" method="post" name="login">
+
+<div class="container">
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+        
+    <button type="submit" value="Login" name="submit">Login</button>
+
+	<p class="link"><a href="../register">New Registration</a></p>
+	<p class="link"><a href='../'>Back to Home</a></p>
+  </div>
+
   </form>
 <?php
     }

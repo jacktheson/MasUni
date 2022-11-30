@@ -37,6 +37,9 @@ if(checkAdmin($_SESSION['username'])){
     <input type="text" name="GradYear" placeholder="Grad Year" required/>
     <input type="submit" name="submit" value="Profile-Create">
 </form>
+<div>
+    <p class='link'>Back to <a href='../dashboard'>Homepage</a>.<p/>
+</div>
 <?php
     }
 }else{ ?>

@@ -1,52 +1,29 @@
 <!DOCTYPE html>
 
-
 <head>
-    <h1 style = "text-align:left">
-        MasUni
-    </h1>
-    <h2 style = "font-weight: normal">
-        Welcome To MasUni
-    </h2>
+    <meta charset="utf-8"/>
+    <title>MasUni</title>
+    <link rel="stylesheet" href="webpage_header.css"/>
 </head>
 
 <body>
-    
+
+<div class="header">
+  <h1>Welcome to MasUni</h1>
+</div>
+
+<div class="goal">
+  <p>Our Goal: Connect companies with gigs
+to prospective students across the country.</p>
+</div>
+
+<div class="topnav">
+  <a href="./login">User Login</a>
+  <a href="./register">Register</a>
+  <a href="./students">View All Students</a>
+  <a href="./admin" style="float:right">Admin Panel</a>
+</div>
+
 </body>
-<body>
-   <h3 style = "font-weight: normal">
-    Our Goal:
-   </h3>
-   <p style = "text-align:left" style = "font-weight:bold"> Connect companies with gigs <br>
-   to prospective students across the country</p>
-   
-</body>
-<body>
-<h3>Quick Links</h3>
-<ul>
-        <li> 
-        <a href = "">
-            Home Page
-        </a>
-        </li>
-        <li>
-        <a href = "./login">
-            Login
-        </a>
-        <li>
-        <a href = "./register">
-            Register
-        </a>
-        <li>
-            <a href = "./students">
-                All Students
-            </a>
-        </li>
-	<li>
-	    <a href = "./admin">
-		Admin Login
-	    </a>
-	</li>
-    </ul>
-</body>
+
 </html>
