@@ -25,6 +25,10 @@ function checkLoginEntryExists($field, $entry) {
     return checkFieldEntryExists($field, $entry, "USER_LOGIN");
 }
 
+function checkUserIDExists($userId){
+    return checkLoginEntryExists("userID", $userId);
+}
+
 function checkUsernameExists($username) {
     return checkLoginEntryExists("username", $username);
 }
