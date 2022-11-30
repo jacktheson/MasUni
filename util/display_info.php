@@ -80,6 +80,9 @@ class DisplayStudent implements Display {
         }
         $query = "SELECT * FROM `USER_DATA` WHERE `loginID`='$userID'";
         $response = queryDatabase($query);
+        if ($response == null) {
+            return null;
+        }
         $studentInfo = $response->fetch_assoc();
         return new DisplayStudent($studentInfo);
     }

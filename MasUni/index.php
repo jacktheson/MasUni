@@ -1,5 +1,6 @@
 <?php 
-  include "../../util/auth_sess.php";
+  include_once "../../util/auth_sess.php";
+  include_once "../../util/user_info.php";
 ?>
 <!DOCTYPE html>
 
@@ -31,8 +32,10 @@ to prospective students across the country.</p>
   <a href="./register">Register</a>
   <a href="./students">View All Students</a>
   <?php 
-    if (isSet($_SESSION["user"]) and unserialize($_SESSION["user"])->isAdmin()) {
-      echo '<a href="./admin" style="float:right">Admin Panel</a>';
+    if (isSet($_SESSION["user"])) {
+      if (unserialize($_SESSION["user"])->isAdmin()) {
+        echo '<a href="./admin" style="float:right">Admin Panel</a>';
+      }
     }
   ?>
 </div>
