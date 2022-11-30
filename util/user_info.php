@@ -59,6 +59,17 @@ class DisplayStudent implements Display {
     public function getPrimMajor(){
         return this->primMajor;
     }
+
+    public static function fromUserID($userID, $username){
+        $query = "SELECT COUNT(*) FROM `USER_LOGIN` WHERE `userID`='$userID', `username`='$username'";
+        if(queryDatabase($query)->fetch_assoc()["Count(*)"] <= 0) {
+            return null;
+        }
+        $query = "SELECT * FROM `USER_DATA` WHERE `loginID`='$userID'";
+        $response = queryDatabase($query);
+        $studentInfo = $response->fetch_assoc();
+        return new DisplayStudent($studentInfo);
+    }
 }
 
 class UserStudent implements User {
@@ -66,21 +77,13 @@ class UserStudent implements User {
     private $username;
     private $userID;
     private $admin;
+    private $display;
 
     public function __construct($username, $userID, $admin) {
         $this->username = $username;
         $this->userID = $userID;
         $this->admin = $admin;
-
-        $displayStudent = new DisplayStudent($username, $userID);
-
-
-        $query = "SELECT * FROM `USER_DATA` WHERE `loginID`='$this->userID'";
-        $response = queryDatabase($query);
-        $studentInfo = $response->fetch_assoc();
-
-
-        
+        $this->display = DisplayStudent::fromUserID($userID, $username); 
     }
 
     public function getUserID() {
@@ -93,6 +96,10 @@ class UserStudent implements User {
 
     public function isAdmin() {
         return $this->isAdmin;
+    }
+
+    public function getDisplay(){ 
+        return $this->display;
     }
 }
 
