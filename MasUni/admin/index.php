@@ -3,8 +3,7 @@ session_start();
 require('../../../util/info.php');
 if(checkAdmin($_SESSION['userID'])){
     if (isset($_REQUEST['FirstName'])){
-        $madeAccount = createStudent($_REQUEST['FirstName'],$_REQUEST['LastName'],$_REQUEST['PreferedName'],$_REQUEST['Univeristy'],
-        $_REQUEST['Major'],$_REQUEST['Minor'],$_REQUEST['Skills'],$_REQUEST['GradMonth'],$_REQUEST['GradYear'], $_REQUEST['LinkExt']);
+        $madeAccount = createStudent(new DisplayStudent($_REQUEST));
         if ($madeAccount) {
             echo "<div class='form'>
                   <h3>You created a Student!.</h3><br/>
@@ -24,20 +23,9 @@ if(checkAdmin($_SESSION['userID'])){
     <title>Dashboard - Admin area</title>
     <link rel="stylesheet" href="style.css" />
 </head>
-<form class="form" action="" method ="post" >
-    <h1>Student Profile Creation</h1>
-    <input type="text" name="FirstName" placeholder="Student Name" required/>
-    <input type="text" name="LastName" placeholder="Student Name" required/>
-    <input type="text" name="PreferedName" placeholder="Prefered Name" required/>
-    <input type="text" name="University" placeholder="Unviersity" required/>
-    <input type="text" name="Major" placeholder="Major" required/>
-    <input type="text" name="Minor" placeholder="Minor" />
-    <input type="text" name="Skills" placeholder="Skills" required/>
-    <input type="text" name="GradMonth" placeholder="Grad Month" required/>
-    <input type="text" name="GradYear" placeholder="Grad Year" required/>
-    <input type="text" name="LinkExt" placeholder="Link Extension" required/>
-    <input type="submit" name="submit" value="Profile-Create">
-</form>
+<?php
+    profileCreationHTML(unserialize($_SESSION['user']), TRUE);
+?>
 <div>
     <p class='link'>Back to <a href='../dashboard'>Homepage</a>.<p/>
 </div>

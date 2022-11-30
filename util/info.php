@@ -15,15 +15,14 @@ function createAccount($username, $email, $password) {
     if (checkUsernameExists($username)) {
         echo "<div class='form'>
         <h3>This username is already in use. Please pick a new one, or log into your old account.</h3><br/>
-        <p class='link'>Click here to <a href='./'>register</a> again.</p>
-        <p class='link'>Click here to <a href='../login'>login</a>.</p>
+        <p class='link'>Click here to <a href='./'>registration</a> again.</p>
         </div>";
         return FALSE;
     }
     if (checkEmailExists($email)){ 
         echo "<div class='form'>
         <h3>This email is already in use. Please pick a new one, or log into your old account.</h3><br/>
-        <p class='link'>Click here to <a href='./'>registration</a> again.</p>
+        <p class='link'>Click here to <a href='../login'>login</a>.</p>
         </div>";
         return FALSE;
     } 
@@ -35,25 +34,11 @@ function createAccount($username, $email, $password) {
 	return TRUE;
 }
 
-function createStudent($first, $last,
-                    $pref, $uni, $major,
-                    $minor, $skills, $month,
-                    $year, $linkExt) {
-    $first = cleanUserInput($first);
-    $last = cleanUserInput($last);
-    $pref = cleanUserInput($pref);
-    $uni = cleanUserInput($uni);
-    $major = cleanUserInput($major);
-    $minor = cleanUserInput($minor);
-    $skills = cleanUserInput($skills);
-    $month = cleanUserInput($month);
-    $year = intval(cleanUserInput($year));
-    $linkExt = cleanUserInput($linkExt);
-    if (checkLinkExists($linkExt)) {
+function createStudent(DisplayStudent $student) {
+    if (checkLinkExists($student->getLink())) {
         return FALSE;
     }
-    $query = "INSERT into `USER_DATA` (`first_name`,`last_name`,`preferred_name`,`university`,`primary_major`,`primary_minor`,`skills`,`graduation_month`, `graduation_year`,`link_extension`)
-            VALUES ('$first','$last','$pref', '$uni','$major','$minor','$skills', '$month', $year, '$linkExt')";
+    $query = $student->getInsertQuery();
     $result = insertDatabase($query);
     return TRUE;
 }
@@ -66,10 +51,10 @@ function beginLogin($username, $password) {
     $response = queryDatabase($query);
     if ($response){
         $userInfo = $response->fetch_assoc();
-        return UserFactory::build(strcmp($userInfo['isStudent'], "1") == 0,
+        return UserFactory::build($userInfo['isStudent'],
                         $userInfo['username'],
                         $userInfo['userID'],
-                        strcmp($userInfo['inAdmin'], "1") == 0
+                        $userInfo['inAdmin']
                     );
 
     } else {

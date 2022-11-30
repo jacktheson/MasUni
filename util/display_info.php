@@ -9,26 +9,74 @@ interface Display {
 
 class DisplayStudent implements Display {
 
-    private $firstName;
-    private $lastName;
-    private $school;
     private $gradYear;
     private $primMajor;
     private $userID;
     private $displayID;
+    private $firstName;
+    private $lastName;
+    private $preferredName;
+    private $gradMonth;
+    private $gradYear;
+    private $school;
+    private $primMajor;
+    private $secMajor;
+    private $primMinor;
+    private $secMinor;
+    private $skills;
     private $linkExt;
+    private $status;
     private $filepath;
+    private $registering = FALSE;
+
+    public static ConstructNewRegisterFromForm($assoc) {
+        $assoc["graduation_year"] = intval(explode("-", $assoc["graduation_date"])[0]);
+        $assoc["graduation_month"] = intval(explode("-", $assoc["graduation_date"])[1]);
+        if ($assoc["primary_major"] === null and $assoc["secondary_major"] !== null) {
+            $assoc["primary_major"] = $assoc["secondary_major"];
+            $assoc["secondary_major"] = null;
+        }
+        if ($assoc["primary_minor"] === null and $assoc["secondary_minor"] !== null) {
+            $assoc["primary_minor"] = $assoc["secondary_minor"];
+            $assoc["secondary_minor"] = null;
+        }
+        $assoc['filepath'] = 
+        $student = new DisplayStudent($assoc);
+        $student->flagRegistering();
+    }
 
     public function __construct($assoc) {
-        $this->firstName = $assoc["first_name"];
-        $this->lastName = $assoc["last_name"];
+        $this->userID = cleanUserInput($assoc["loginID"]);
+        $this->displayID = cleanUserInput($assoc["infoID"];
+        $this->firstName = cleanUserInput($assoc["first_name"];
+        $this->lastName = cleanUserInput($assoc["last_name"];
+        $this->preferredName = cleanUserInput($assoc["preferred_name"];
+        $this->gradMonth = intval(cleanUserInput($assoc["graduation_month"]));
+        $this->gradYear = intval$assoc["graduation_year"];
         $this->school = $assoc["university"];
-        $this->gradYear = $assoc["graduation_year"];
         $this->primMajor = $assoc["primary_major"];
-        $this->userID = $assoc["loginID"];
-        $this->displayID = $assoc["infoID"];
-        $this->linkExt = $assoc["link_extension"];
+        $this->secMajor = $assoc["secondary_major"];
+        $this->primMinor = $assoc["primary_minor"];
+        $this->secMinor = $assoc["secondary_minor"];
+        $this->skills = $assoc["skills"];
         $this->filepath = $assoc["filepath"];
+        $this->status = $assoc["status"];
+        $this->linkExt = $assoc["link_extension"];
+    }
+
+    protected function flagRegistering() {
+        $this->registering = TRUE;
+    }
+
+    public function isRegistering() {
+        return $this->registering();
+    }
+
+    public function insertionQuery() {
+        $query = "INSERT INTO `USER_DATA` (first_name, last_name, 
+            preferred_name, graduation_month, graduation_year, 
+            university, primary_major, secondary_major, primary_minor, 
+            secondary_minor, skills, filepath, `status`, link_extension
     }
 
     public function displayPortfolio() {
@@ -53,25 +101,81 @@ class DisplayStudent implements Display {
         echo $html . "<br>";
     }
 
+    protected function emptyIfDefault($val, $default=null) {
+        $comp = TRUE;
+        if ($default === null) {
+            $comp = $val === null;
+        } else {
+            $comp = strcmp($val, $default) == 0;
+        }
+        if ($comp) {
+            return "";
+        } else return $val;
+    }
 
     public function getName() {
-        return $this->firstName . " " . $this->lastName;
+        return $this->emptyIfDefault($this->firstName . " " . $this->lastName, " ");
+    }
+
+    public function getFirstName() {
+        return $this->emptyIfDefault($this->firstName);
+    }
+
+    public function getLastName(){
+        return $this->emptyIfDefault($this->lastName);
+    }
+
+    public function getPreferredName() {
+        return $this->emptyIfDefault($this->preferredName);
+    }
+
+    public function getGraduationMonthYearStr(){
+        $rtrn = $this->gradYear . "-" . $this->gradMonth;
+        return $this->emptyIfDefault($rtrn, "-");
     }
 
     public function getGraduationYear() {
-        return $this->gradYear;
+        return $this->emptyIfDefault($this->gradYear);
     }
 
     public function getPrimMajor(){
-        return $this->primMajor;
+        return $this->emptyIfDefault($this->primMajor);
+    }
+
+    public function getSecMajor() {
+        return $this->secMajor !== null ? $this->secMajor : "";
+    }
+
+    public function getPrimMinor() {
+        return $this->emptyIfDefault($this->primMinor);
+    }
+
+    public function getSecMinor() {
+        return $this->emptyIfDefault($this->secMinor);
+    }
+
+    public function getSkills() {
+        return $this->emptyIfDefault($this->skills);
+    }
+
+    public function getLink() {
+        return $this->emptyIfDefault($this->linkExt);
     }
 
     public function getFilepath() {
-        return $this->filepath;
+        return $this->emptyIfDefault($this->filepath);
     }
 
     public function getDisplayID() {
-        return $this->displayID;
+        return $this->emptyIfDefault($this->displayID);
+    }
+
+    public function getUniversity() {
+        return $this->emptyIfDefault($this->school);
+    }
+
+    public function getStatus() {
+        return $this->emptyIfDefault($this->status);
     }
 
     public static function fromUserID($userID, $username){
