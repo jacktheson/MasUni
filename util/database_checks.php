@@ -12,20 +12,32 @@ function checkAdmin($username) {
     }
 }
 
-function checkFieldEntryUnique($field, $entry) {
+function checkFieldEntryUnique($field, $entry, $table) {
     $field = cleanUserInput($field);
     $entry = cleanUserInput($entry);
-    $query = "SELECT COUNT(*) FROM `USER_LOGIN` where `$field`='$entry'";
+    $query = "SELECT COUNT(*) FROM `$table` where `$field`='$entry'";
     $result = queryDatabase($query);
     return $result->fetch_assoc["Count(*)"]  == 0;
 }
 
+function checkLoginEntryUnique($field, $entry) {
+    return checkFieldEntryUnique($field, $entry, "USER_LOGIN");
+}
+
 function checkUsernameUnique($username) {
-    return checkFieldEntryUnique("username", $username);
+    return checkLoginEntryUnique("username", $username);
 }
 
 function checkEmailUnique($email) {
-    return checkFieldEntryUnique("email", $email);
+    return checkLoginEntryUnique("email", $email);
+}
+
+function checkDisplayInfoEntryUnique($field, $entry) {
+    return checkFieldEntryUnique($field, $entry, "USER_DATA");
+}
+
+function checkLinkUnique($link) {
+    return checkDisplayInfoEntryUnique("link_extension", $link);
 }
 
 function checkQuerySucceeded($queryResponse) {

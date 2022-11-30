@@ -38,7 +38,7 @@ function createAccount($username, $email, $password) {
 function createStudent($first, $last,
                     $pref, $uni, $major,
                     $minor, $skills, $month,
-                    $year) {
+                    $year, $linkExt) {
     $first = cleanUserInput($first);
     $last = cleanUserInput($last);
     $pref = cleanUserInput($pref);
@@ -48,8 +48,12 @@ function createStudent($first, $last,
     $skills = cleanUserInput($skills);
     $month = cleanUserInput($month);
     $year = intval(cleanUserInput($year));
-    $query = "INSERT into `USER_DATA` (`first_name`,`last_name`,`preferred_name`,`university`,`primary_major`,`primary_minor`,`skills`,`graduation_month`, `graduation_year`)
-            VALUES ('$first','$last','$pref', '$uni','$major','$minor','$skills', '$month', $year)";
+    $linkExt = cleanUserInput($linkExt);
+    if (!checkUniqueLink($linkExt)) {
+        return FALSE;
+    }
+    $query = "INSERT into `USER_DATA` (`first_name`,`last_name`,`preferred_name`,`university`,`primary_major`,`primary_minor`,`skills`,`graduation_month`, `graduation_year`,`link_extension`)
+            VALUES ('$first','$last','$pref', '$uni','$major','$minor','$skills', '$month', $year, '$linkExt')";
     $result = insertDatabase($query);
     return TRUE;
 }
