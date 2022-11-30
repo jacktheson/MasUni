@@ -16,5 +16,11 @@ include_once("../../../util/auth_sess.php");
         <p><a href="../logout">Logout</a></p>
         <p><a href="../admin">Admin Login</a></p>
     </div>
+
+    <input
+      type="file"
+        id="docpicker"
+        accept=".pdf,.doc,.docx,image/*,video/*" 
+    />
 </body>
 </html>

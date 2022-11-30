@@ -17,7 +17,10 @@ class Student implements User {
         $this->admin = $admin;
 
         $query = "SELECT * FROM `USER_DATA` WHERE `loginID`='$this->userID'";
-        $studentInfo = queryDatabase($query);
+        $response = queryDatabase($query);
+        $studentInfo = $response->fetch_assoc();
+
+        $this->studentFolder = $studentInfo[]
         
     }
 
