@@ -22,7 +22,7 @@
         } else {
             echo "<div class='form'>
                   <h3>Your username may already be taken. Pick a new one.</h3><br/>
-                  <p class='link'>Click here to <a href='./'>registration</a> again.</p>
+                  <p class='link'>Click here to <a href='./'>register</a> again.</p>
                   </div>";
         }
     } else {
@@ -30,10 +30,11 @@
     <form class="form" action="" method="post">
         <h1 class="login-title">Registration</h1>
         <input type="text" class="login-input" name="username" placeholder="Username" required />
-        <input type="text" class="login-input" name="email" placeholder="Email Adress">
+        <input type="text" class="login-input" name="email" placeholder="Email Address">
         <input type="password" class="login-input" name="password" placeholder="Password">
         <input type="submit" name="submit" value="Register" class="login-button">
         <p class="link"><a href="../login">Click to Login</a></p>
+	<p class="link"><a href='../'>Back to Home</a></p>
     </form>
 <?php
     }
