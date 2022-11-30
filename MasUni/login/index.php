@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Login</title>
-    <link rel="stylesheet" href="login-page.css"/>
+    <link rel="stylesheet" href="log-page.css"/>
 </head>
 <body>
 <?php 
