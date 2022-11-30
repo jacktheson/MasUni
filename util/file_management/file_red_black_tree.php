@@ -1,4 +1,7 @@
 <?php
+include_once "file_comparator.php";
+include_once "files.php";
+include_once "visitor.php";
 
 class Node {
 	public ?Node $left;
