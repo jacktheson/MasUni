@@ -68,9 +68,12 @@ class DisplayStudent implements Display {
         return $this->filepath;
     }
 
+    public function getDisplayID() {
+        return $this->displayID;
+    }
+
     public static function fromUserID($userID, $username){
-        $query = "SELECT COUNT(*) FROM `USER_LOGIN` WHERE `userID`='$userID', `username`='$username'";
-        if(queryDatabase($query)->fetch_assoc()["Count(*)"] <= 0) {
+        if(!checkUserIDExists($userID)) {
             return null;
         }
         $query = "SELECT * FROM `USER_DATA` WHERE `loginID`='$userID'";
@@ -80,8 +83,7 @@ class DisplayStudent implements Display {
     }
 
     public static function fromLink($link) {
-        $query = "SELECT COUNT(*) FROM `USER_LOGIN` WHERE `link_extension`='$link'";
-        if (queryDatabase($query)->fetch_assoc()["Count(*)"] <= 0) {
+        if (!checkLinkExists($link)) {
             return null;
         }
         $query = "SELECT * FROM `USER_DATA` WHERE `link_extension`='$link'";

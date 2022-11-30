@@ -15,7 +15,7 @@
     if (isset($_POST['username'])) {
         $user = beginLogin($_REQUEST['username'], $_REQUEST['password']);
         if ($user !== null) {
-            $_SESSION['user'] = $user;
+            $_SESSION['user'] = serialize($user);
             // Redirect to user dashboard page
             header("Location: ../dashboard");
         } else {

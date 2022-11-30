@@ -1,7 +1,7 @@
 <?php 
 session_start();
 require('../../../util/info.php');
-if(checkAdmin($_SESSION['username'])){
+if(checkAdmin($_SESSION['userID'])){
     if (isset($_REQUEST['FirstName'])){
         $madeAccount = createStudent($_REQUEST['FirstName'],$_REQUEST['LastName'],$_REQUEST['PreferedName'],$_REQUEST['Univeristy'],
         $_REQUEST['Major'],$_REQUEST['Minor'],$_REQUEST['Skills'],$_REQUEST['GradMonth'],$_REQUEST['GradYear'], $_REQUEST['LinkExt']);
@@ -16,7 +16,7 @@ if(checkAdmin($_SESSION['username'])){
                   <p class='link'>Click here to try <a href='./'>again</a>.</p>
                   </div>";
         }
-    }else{
+    } else{
 ?>
 <!DOCTYPE html>
 <head>

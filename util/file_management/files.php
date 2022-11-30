@@ -21,7 +21,7 @@ abstract class FileImplementation implements File {
 	private $filePosition;
 	private $fileName;
 
-	public factor __construct($fileID, $fileName, $filePosition, $filePath){
+	public function __construct($fileID, $fileName, $filePosition, $filePath){
 		$this->fileID = $fileID;
 		$this->fileName = $fileName;
 		$this->filePosition = $filePosition;
@@ -110,8 +110,8 @@ class TestFile implements File {
 	
 }
 
-class FileFactory(){
-	public function build(Student $student, $fileInfo) {
+class FileFactory {
+	public static function build(Student $student, $fileInfo) {
 		$stuFolder = $student->getFolderName() . "/";
 		switch ($fileInfo["media_type"]) {
 			case "image":

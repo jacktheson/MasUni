@@ -1,5 +1,4 @@
 <?php
-include_once "session_create.php";
 include_once "database_checks.php";
 include_once "account_utils.php";
 include_once "user_info.php";
@@ -13,7 +12,7 @@ function createAccount($username, $email, $password) {
     $username = cleanUserInput($username);
     $email    = cleanUserInput($email);
     $password = cleanUserInput($password);
-    if (!checkUsernameUnique($username)) {
+    if (checkUsernameExists($username)) {
         echo "<div class='form'>
         <h3>This username is already in use. Please pick a new one, or log into your old account.</h3><br/>
         <p class='link'>Click here to <a href='./'>registration</a> again.</p>
@@ -66,8 +65,7 @@ function beginLogin($username, $password) {
     $response = queryDatabase($query);
     if ($response){
         $userInfo = $response->fetch_assoc();
-	$factory = new UserFactory();
-        return $factory->build($userInfo['isStudent'] == 1,
+        return UserFactory::build($userInfo['isStudent'] == 1,
                         $userInfo['username'],
                         $userInfo['userID'],
                         $userInfo['inAdmin'] == 1

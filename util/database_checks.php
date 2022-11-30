@@ -1,5 +1,6 @@
 <?php
 include_once "account_utils.php";
+include_once "session_create.php";
 
 function checkAdmin($username) {
     $username = cleanUserInput($username);
@@ -12,32 +13,32 @@ function checkAdmin($username) {
     }
 }
 
-function checkFieldEntryUnique($field, $entry, $table) {
+function checkFieldEntryExists($field, $entry, $table) {
     $field = cleanUserInput($field);
     $entry = cleanUserInput($entry);
     $query = "SELECT COUNT(*) FROM `$table` where `$field`='$entry'";
     $result = queryDatabase($query);
-    return $result->fetch_assoc["Count(*)"]  == 0;
+    return $result->fetch_assoc["Count(*)"]  > 0;
 }
 
-function checkLoginEntryUnique($field, $entry) {
-    return checkFieldEntryUnique($field, $entry, "USER_LOGIN");
+function checkLoginEntryExists($field, $entry) {
+    return checkFieldEntryExists($field, $entry, "USER_LOGIN");
 }
 
-function checkUsernameUnique($username) {
-    return checkLoginEntryUnique("username", $username);
+function checkUsernameExists($username) {
+    return checkLoginEntryExists("username", $username);
 }
 
-function checkEmailUnique($email) {
-    return checkLoginEntryUnique("email", $email);
+function checkEmailExists($email) {
+    return checkLoginEntryExists("email", $email);
 }
 
-function checkDisplayInfoEntryUnique($field, $entry) {
-    return checkFieldEntryUnique($field, $entry, "USER_DATA");
+function checkDisplayInfoEntryExists($field, $entry) {
+    return checkFieldEntryExists($field, $entry, "USER_DATA");
 }
 
-function checkLinkUnique($link) {
-    return checkDisplayInfoEntryUnique("link_extension", $link);
+function checkLinkExists($link) {
+    return checkDisplayInfoEntryExists("link_extension", $link);
 }
 
 function checkQuerySucceeded($queryResponse) {
