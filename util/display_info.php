@@ -40,7 +40,7 @@ class DisplayStudent implements Display {
             $assoc["primary_minor"] = $assoc["secondary_minor"];
             $assoc["secondary_minor"] = null;
         }
-        $assoc['filepath'] = 
+        $assoc['filepath'] = generateFolderExtension();
         $student = new DisplayStudent($assoc);
         $student->flagRegistering();
     }

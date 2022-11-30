@@ -7,6 +7,23 @@ function createSalt() {
     return rand(0, 2147483647);
 }
 
+function generateFolderExtension() {
+    $folderName = generateRandomString(10);
+    while(!checkFolderNameUnique($folderName)){
+        $folderName = generateRandomString(10);
+    }
+    return $folderName;
+}
+function generateRandomString($length) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 function createAccount($username, $email, $password) {
     // removes backslashes
     $username = cleanUserInput($username);
