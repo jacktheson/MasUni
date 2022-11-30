@@ -68,11 +68,9 @@ class FileTree
 		
 		if ($this->__isRed($parent->right) and !($this->__isRed($parent->left))){
 			$parent = $this->__rotateLeft($parent);
-			print("Rotate Left" . " | " . strval($parent) . " | " . strval($parent->left) . " | " . strval($parent->right) . "\n'");
 		}
 		if ($this->__doubleRed($parent->left)) {
 			$parent = $this->__rotateRight($parent);
-			print("Rotate Right". " | " . strval($parent) . " | " . strval($parent->left) . " | " . strval($parent->right) . "\n");
 		}
 		if ($this->__isRed($parent->left) and $this->__isRed($parent->right)) {
 			$parent = $this->__flipColor($parent);

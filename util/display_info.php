@@ -9,26 +9,42 @@ interface Display {
 
 class DisplayStudent implements Display {
 
-    private $firstName;
-    private $lastName;
-    private $school;
     private $gradYear;
     private $primMajor;
     private $userID;
     private $displayID;
+    private $firstName;
+    private $lastName;
+    private $preferredName;
+    private $gradMonth;
+    private $gradYear;
+    private $school;
+    private $primMajor;
+    private $secMajor;
+    private $primMinor;
+    private $secMinor;
+    private $skills;
     private $linkExt;
+    private $status;
     private $filepath;
 
     public function __construct($assoc) {
-        $this->firstName = $assoc["first_name"];
-        $this->lastName = $assoc["last_name"];
-        $this->school = $assoc["university"];
-        $this->gradYear = $assoc["graduation_year"];
-        $this->primMajor = $assoc["primary_major"];
         $this->userID = $assoc["loginID"];
         $this->displayID = $assoc["infoID"];
-        $this->linkExt = $assoc["link_extension"];
+        $this->firstName = $assoc["first_name"];
+        $this->lastName = $assoc["last_name"];
+        $this->preferredName = $assoc["preferred_name"];
+        $this->gradMonth = $assoc["graduation_month"];
+        $this->gradYear = $assoc["graduation_year"];
+        $this->school = $assoc["university"];
+        $this->primMajor = $assoc["primary_major"];
+        $this->secMajor = $assoc["secondary_major"];
+        $this->primMinor = $assoc["primary_minor"];
+        $this->secMinor = $assoc["secondary_minor"];
+        $this->skills = $assoc["skills"];
         $this->filepath = $assoc["filepath"];
+        $this->status = $assoc["status"];
+        $this->linkExt = $assoc["link_extension"];
     }
 
     public function displayPortfolio() {
@@ -53,25 +69,81 @@ class DisplayStudent implements Display {
         echo $html . "<br>";
     }
 
+    protected function emptyIfDefault($val, $default=null) {
+        $comp = TRUE;
+        if ($default === null) {
+            $comp = $val === null;
+        } else {
+            $comp = strcmp($val, $default) == 0;
+        }
+        if ($comp) {
+            return "";
+        } else return $val;
+    }
 
     public function getName() {
-        return $this->firstName . " " . $this->lastName;
+        return $this->emptyIfDefault($this->firstName . " " . $this->lastName, " ");
+    }
+
+    public function getFirstName() {
+        return $this->emptyIfDefault($this->firstName);
+    }
+
+    public function getLastName(){
+        return $this->emptyIfDefault($this->lastName);
+    }
+
+    public function getPreferredName() {
+        return $this->emptyIfDefault($this->preferredName);
+    }
+
+    public function getGraduationMonthYearStr(){
+        $rtrn = $this->gradYear . "-" . $this->gradMonth;
+        return $this->emptyIfDefault($rtrn, "-");
     }
 
     public function getGraduationYear() {
-        return $this->gradYear;
+        return $this->emptyIfDefault($this->gradYear);
     }
 
     public function getPrimMajor(){
-        return $this->primMajor;
+        return $this->emptyIfDefault($this->primMajor);
+    }
+
+    public function getSecMajor() {
+        return $this->secMajor !== null ? $this->secMajor : "";
+    }
+
+    public function getPrimMinor() {
+        return $this->emptyIfDefault($this->primMinor);
+    }
+
+    public function getSecMinor() {
+        return $this->emptyIfDefault($this->secMinor);
+    }
+
+    public function getSkills() {
+        return $this->emptyIfDefault($this->skills);
+    }
+
+    public function getLink() {
+        return $this->emptyIfDefault($this->linkExt);
     }
 
     public function getFilepath() {
-        return $this->filepath;
+        return $this->emptyIfDefault($this->filepath);
     }
 
     public function getDisplayID() {
-        return $this->displayID;
+        return $this->emptyIfDefault($this->displayID);
+    }
+
+    public function getUniversity() {
+        return $this->emptyIfDefault($this->school);
+    }
+
+    public function getStatus() {
+        return $this->emptyIfDefault($this->status);
     }
 
     public static function fromUserID($userID, $username){

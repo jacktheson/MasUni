@@ -106,7 +106,7 @@ class TestFile implements File {
 	}
 	
 	public function __toString() {
-		return $this->val;
+		return $this->val->__toString();
 	}
 	
 }
