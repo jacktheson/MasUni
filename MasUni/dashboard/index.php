@@ -31,11 +31,21 @@ to prospective students across the country.</p>
     }
   ?>
   <a href="../students">View All Students</a>
+  
   <?php 
+    if (isSet($_SESSION["user"])) {
+        if (unserialize($_SESSION["user"])->isAdmin()) {
+            echo '<a href="./admin" style="float:right">Admin Panel</a>';
+        }
+    }
     if (isSet($_SESSION["user"])) {
       if (unserialize($_SESSION["user"])->isAdmin()) {
         echo '<a href="./admin" style="float:right">Admin Panel</a>';
+      } else {
+          die ("Failed isAdmin." . $_SESSION["user"]);
       }
+    } else {
+        die ("No session.");
     }
   ?>
 </div>

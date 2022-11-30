@@ -52,7 +52,7 @@ class DisplayStudent implements Display {
         $this->lastName = cleanUserInput($assoc["last_name"];
         $this->preferredName = cleanUserInput($assoc["preferred_name"];
         $this->gradMonth = intval(cleanUserInput($assoc["graduation_month"]));
-        $this->gradYear = intval$assoc["graduation_year"];
+        $this->gradYear = intval$assoc["graduation_year"];4c5a5f1a97d3fd90e19c
         $this->school = $assoc["university"];
         $this->primMajor = $assoc["primary_major"];
         $this->secMajor = $assoc["secondary_major"];
@@ -76,7 +76,7 @@ class DisplayStudent implements Display {
         $query = "INSERT INTO `USER_DATA` (first_name, last_name, 
             preferred_name, graduation_month, graduation_year, 
             university, primary_major, secondary_major, primary_minor, 
-            secondary_minor, skills, filepath, `status`, link_extension
+            secondary_minor, skills, filepath, `status`, link_extension)"
     }
 
     public function displayPortfolio() {

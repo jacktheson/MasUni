@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include_once "../../util/user_info.php";
 ?>
 <html>
 <head>
@@ -28,8 +28,6 @@ to prospective students across the country.</p>
       echo "<a href='../logout'>Logout</a>";
       echo "<a href='../dashboard'>Back to Dashboard</a>";
     }
-  ?>
-  <?php 
     if (isSet($_SESSION["user"])) {
       if (unserialize($_SESSION["user"])->isAdmin()) {
         echo '<a href="./admin" style="float:right">Admin Panel</a>';
