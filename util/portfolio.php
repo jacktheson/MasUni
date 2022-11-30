@@ -1,6 +1,7 @@
 <?php
 
 include_once "./file_management/file_red_black_tree.php";
+include_once "./database_checks.php";
 
 class Portfolio {
     private FileTree $tree;
@@ -11,7 +12,7 @@ class Portfolio {
     // TODO: Make User class that will contain information about the current session user.
     public function __construct(Student $student){
         $this->student = $student;
-        $filesFromDb = 
+        $filesFromDb = queryUserFileList($this->student);
         while ($row = $filesFromDB->fetch_assoc())
         {
             $file = this->f_fctry->build($this->student, $row);

@@ -47,9 +47,9 @@ function queryDatabase($query) {
     return $res;
 }
 
-function queryUserFileList(User $user) {
-    $userID = cleanUserInput($user->getID());
-    $query = "SELECT * FROM `USER_FILES` WHERE `userID`='$userID'";
+function queryDisplayFileList(Display $display) {
+    $displayID = cleanUserInput($display->getID());
+    $query = "SELECT * FROM `USER_FILES` WHERE `userID`='$displayID'";
     $files = queryDatabase($query);
     return $files;
 }

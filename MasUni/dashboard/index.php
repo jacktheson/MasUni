@@ -12,7 +12,7 @@ include_once("../../../util/auth_sess.php");
 <body>
     <div class="form">
         <p>Hey, <?php echo $_SESSION['user']->getUsername(); ?>!</p>
-        <p>You are now user dashboard page.</p>
+        <p>You are now on the user dashboard page.</p>
         <p><a href="../logout">Logout</a></p>
         <p><a href="../admin">Admin Login</a></p>
     </div>
