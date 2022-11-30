@@ -15,6 +15,7 @@
 		Thank you for choosing MasUni!<br><br></p>
 
 	<p class='link'>Click here to <a href='../login'>Login</a> again.</p>
+	<p class="link"><a href='../'>Back to Home</a></p>
     </div>
 </body>
 </html>

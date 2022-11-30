@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Registration</title>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="reg-page.css"/>
 </head>
 <body>
 <?php
@@ -21,15 +21,24 @@
         }
     } else {
 ?>
-    <form class="form" action="" method="post">
-        <h1 class="login-title">Registration</h1>
-        <input type="text" class="login-input" name="username" placeholder="Username" required />
-        <input type="text" class="login-input" name="email" placeholder="Email Address">
-        <input type="password" class="login-input" name="password" placeholder="Password">
-        <input type="submit" name="submit" value="Register" class="login-button">
-        <p class="link"><a href="../login">Click to Login</a></p>
-	<p class="link"><a href='../'>Back to Home</a></p>
-    </form>
+<h2>MasUni User Registration</h2>
+
+<form class="form" method="post" name="login">
+  <div class="container">
+    <label for="username"><b>Create Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+    
+    <label for="username"><b>Enter Email</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="password"><b>Create Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+        
+    <button type="submit">Create Account</button>
+    <p class="link"><a href="../login">Login</a></p>
+    <p class="link"><a href='../'>Back to Home</a></p>
+  </div>
+</form>
 <?php
     }
 ?>

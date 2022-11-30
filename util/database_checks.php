@@ -79,6 +79,3 @@ function querySaltFor($username) {
     unset($result, $saltQuery);
     return $salt;
 }
-function checkFolderNameUnique($folderName){
-    return checkDisplayInfoEntryExists("filepath",$folderName);
-}

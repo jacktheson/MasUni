@@ -7,23 +7,6 @@ function createSalt() {
     return rand(0, 2147483647);
 }
 
-function createDisplayFolder() {
-    $folderName = generateRandomString(10);
-    while(!checkFolderNameUnique($folderName)){
-        $folderName = generateRandomString(10);
-    }
-    return $folderName;
-}
-function generateRandomString($length) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
-}
-
 function createAccount($username, $email, $password) {
     // removes backslashes
     $username = cleanUserInput($username);
@@ -32,7 +15,8 @@ function createAccount($username, $email, $password) {
     if (checkUsernameExists($username)) {
         echo "<div class='form'>
         <h3>This username is already in use. Please pick a new one, or log into your old account.</h3><br/>
-        <p class='link'>Click here to <a href='./'>registration</a> again.</p>
+        <p class='link'>Click here to <a href='./'>register</a> again.</p>
+        <p class='link'>Click here to <a href='../login'>login</a>.</p>
         </div>";
         return FALSE;
     }
@@ -82,10 +66,10 @@ function beginLogin($username, $password) {
     $response = queryDatabase($query);
     if ($response){
         $userInfo = $response->fetch_assoc();
-        return UserFactory::build($userInfo['isStudent'] == 1,
+        return UserFactory::build(strcmp($userInfo['isStudent'], "1") == 0,
                         $userInfo['username'],
                         $userInfo['userID'],
-                        $userInfo['inAdmin'] == 1
+                        strcmp($userInfo['inAdmin'], "1") == 0
                     );
 
     } else {

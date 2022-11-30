@@ -1,5 +1,5 @@
 <?php 
-  include_once "../../util/auth_sess.php";
+  session_start();
   include_once "../../util/user_info.php";
 ?>
 <!DOCTYPE html>
