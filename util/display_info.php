@@ -138,17 +138,18 @@ class DisplayStudent implements Display {
         $query = "INSERT INTO `USER_DATA` (first_name, last_name, 
             preferred_name, graduation_month, graduation_year, 
             university, primary_major, secondary_major, primary_minor, 
-            secondary_minor, skills, filepath, `status`, link_extension) 
+            secondary_minor, skills, filepath, `status`, link_extension, 
+            loginID) 
             VALUES ('" . $this->getFirstName() . "', '" . $this->getLastName() .
             "', '" . $this->getPreferredName() . "', " . $this->getGraduationMonth() .
             ", " . $this->getGraduationYear() . ", '" . $this->getUniversity().
             "', '" . $this->getPrimMajor() . "','" . $this->getSecMajor() . 
             "', '" . $this->getPrimMinor() . "','" . $this->getSecMinor() .
             "', '" . $this->getSkills() . "', '" . $this->getFilepath() .
-            "', '" . $this->getStatus() . "', '" . $this->getLink() . "')";
+            "', '" . $this->getStatus() . "', '" . $this->getLink() . 
+            "', '" . $this->getUserID() . "')";
         return $query;
     }
-
 
     public function getUpdateQuery() {
         $query = "UPDATE `USER_DATA` SET 
@@ -213,6 +214,10 @@ class DisplayStudent implements Display {
 
     public function toHTMLPortfolioBegin() {
         $html = "<h2>" . $this->getName() . "</h2>";
+	if(strcmp($this->getPreferredName(),"") != 0){
+		$html = $html . "<strong>Preferred Name: </strong> " . $this->getPreferredName();
+		$html = $html . "<br>";
+	}
         if (strcmp($this->getUniversity(), "") != 0) {
             $html = $html . "<strong>College: </strong> " . $this->getUniversity();
             if (strcmp($this->getGraduationMonth(), "") != 0 or strcmp($this->getGraduationYear(), "") != 0) {
@@ -239,6 +244,9 @@ class DisplayStudent implements Display {
         if (strcmp($this->getSkills(), "") != 0) {
             $html = $html . "<strong>Skills: </strong>" . $this->getSkills() . "<br>";
         }
+	if (strcmp($this->getLink(), "") != 0) {
+            $html = $html . "<strong>Link: </strong>" . $this->getLink() . "<br>";
+        }
         echo $html;
     }
 
@@ -255,7 +263,12 @@ class DisplayStudent implements Display {
     }
 
     public function getName() {
-        return $this->emptyIfDefault($this->firstName . " " . $this->lastName, " ");
+	if(strcmp($this->getPreferredName(),"") != 0){
+		return $this->emptyIfDefault($this->firstName . " '" . $this->preferredName . "' " . $this->lastName, " ");
+
+	} else {
+ return $this->emptyIfDefault($this->firstName . " " . $this->preferredName . " " . $this->lastName, " ");
+	}
     }
 
     public function getFirstName() {

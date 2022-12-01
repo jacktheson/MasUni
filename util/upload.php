@@ -12,9 +12,9 @@ function uploadImage(UserStudent $user) {
     if ($display->getFilepath() === null or strcmp($display->getFilepath(), "") == 0) {
         die ("User is missing filepath; should not be possible.");
     }
-    $target_dir = "../../MasUni/" . $display->getFilepath() ;
+    $target_dir = "../../MasUni/" . $display->getFilepath() . "/" ;
     $file_name = basename($_FILES["fileToUpload"]["name"]);
-    $target_file = $target_dir . "/" . $file_name;
+    $target_file = $target_dir . $file_name;
     $temp = explode('.', $target_file);
     $ext = end($temp);
     $display_name = substr($file_name, 0, -1 - strlen($ext));
