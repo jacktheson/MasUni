@@ -64,8 +64,8 @@ to prospective students across the country.</p>
     ?>
       <div class="upload">
         <form action="" method="post" enctype="multipart/form-data">
-          Select files to upload:
-          <input type="file" name="fileToUpload" id="fileToUpload">
+        Select files to upload:
+        <input type="file" name="fileToUpload" id="fileToUpload">
           <input type="submit" value="Upload Image" name="submit-file">
         </form>
       </div>
@@ -76,4 +76,3 @@ to prospective students across the country.</p>
         }
       ?>
 </body>
-</html>
