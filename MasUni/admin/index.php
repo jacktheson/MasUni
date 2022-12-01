@@ -6,18 +6,7 @@ include_once("../../../util/navbar.php");
 outputNavBar(1);
 if(isset($_SESSION['user']) and unserialize($_SESSION['user'])->isAdmin()){
     if (isset($_REQUEST['first_name'])){
-        $madeAccount = createStudent($_REQUEST);
-        if ($madeAccount) {
-            echo "<div class='form'>
-                  <h3>You created a Student!.</h3><br/>
-                  <p class='link'>Click here to return to <a href='./'>Admin Panel</a>.</p>
-                  </div>";
-        } else {
-            echo "<div class='form'>
-                  <h3>Think account failed to be created - your link was already in use.</h3><br/>
-                  <p class='link'>Click here to try <a href='./'>again</a>.</p>
-                  </div>";
-        }
+        createStudent($_REQUEST);
     } else{
 ?>
 <!DOCTYPE html>

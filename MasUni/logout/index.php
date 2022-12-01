@@ -1,10 +1,11 @@
+
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>Logout Page</title>
-    <link rel="stylesheet" href="../dash_header.css" />
+    <link rel="stylesheet" href="../dashboard/dash_header.css" />
 </head>
 <body>
 <?php 
@@ -14,10 +15,11 @@
 
 ?>
     <div class="form">
-	<center>
         <p>You have logged out successfully.<br>
 		Thank you for choosing MasUni!<br><br></p>
-	</center>
+
+	<p class='link'>Click here to <a href='../login'>Login</a> again.</p>
+	<p class="link"><a href='../'>Back to Home</a></p>
     </div>
 </body>
 </html>
