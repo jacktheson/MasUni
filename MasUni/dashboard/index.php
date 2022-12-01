@@ -34,11 +34,19 @@ to prospective students across the country.</p>
             }
         ?>
     </div>
-
-    <input
-      type="file"
-        id="docpicker"
-        accept=".pdf,.doc,.docx,image/*,video/*" 
-    />
+    <?php
+      $user = unserialize($_SESSION['user']);
+      selfProfileCreationHTML($user);
+      if (isset($_SESSION["first_name"])) {
+        
+      }
+    ?>
+      <div class="upload">
+        <form action="../../../util/upload.php" method="post" enctype="multipart/form-data">
+          Select files to upload:
+          <input type="file" name="fileToUpload" id="fileToUpload">
+          <input type="submit" value="Upload Image" name="submit">
+        </form>
+      </div>
 </body>
 </html>

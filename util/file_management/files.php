@@ -55,7 +55,7 @@ class ImageFile extends FileImplementation {
 		$src = 'data: '.mime_content_type($image).';base64,'.$imageData;
 
 		// Echo out a sample image
-		echo '<img src="' . $src . '">';
+		echo '<center><img src="' . $src . '"></center>';
 		
 	}
 }
@@ -72,7 +72,7 @@ class VideoFile extends FileImplementation {
 		$src = 'data: '.mime_content_type($vid).';base64,'.$vidData;
 		
 		// Echo out a sample video
-		echo '<video width="600" controls> <source src="' . $src . '">';
+		echo '<center><video width="600" controls> <source src="' . $src . '"></center>';
 		
 	}
 }

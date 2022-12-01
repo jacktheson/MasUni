@@ -34,31 +34,58 @@ function createAccount($username, $email, $password) {
         <h3>This username is already in use. Please pick a new one, or log into your old account.</h3><br/>
         <p class='link'>Click here to <a href='./'>registration</a> again.</p>
         </div>";
-        return FALSE;
+        return;
     }
     if (checkEmailExists($email)){ 
         echo "<div class='form'>
         <h3>This email is already in use. Please pick a new one, or log into your old account.</h3><br/>
         <p class='link'>Click here to <a href='../login'>login</a>.</p>
         </div>";
-        return FALSE;
+        return;
     } 
     $salt = createSalt();
     $hashedPassword = hashPassword($password, $salt);
     $query    = "INSERT into `USER_LOGIN` (username, hashedPassword, email, salt, isStudent)
                     VALUES ('$username', '$hashedPassword', '$email' , '$salt', 1)";
     $result   = insertDatabase($query);
-	return TRUE;
+
+	return;
+
+}
+
+function nonUniqueLink() {
+    echo "<div class='form'>
+        <h3>Think account failed to be created - your link was already in use.</h3><br/>
+        <p class='link'>Click here to try <a href='./'>again</a>.</p>
+        </div>";
 }
 
 function createStudent($assoc) {
     $student = DisplayStudent::ConstructNewRegisterFromForm($assoc);
     if (checkLinkExists($student->getLink())) {
-        return FALSE;
+        nonUniqueLink();
+        return;
     }
     $query = $student->getInsertionQuery();
     $result = insertDatabase($query);
-    return TRUE;
+    echo "<div class='form'>
+              <h3>You created a Student!</h3><br/>
+              </div>";
+    return;
+}
+
+function updateStudent(User $user, $assoc) {
+    $student = DisplayStudent::ConstructUpdateFromForm($user, $assoc);
+    if (checkLinkExists($student->getLink())) {
+        nonUniqueLink();
+        return;
+    }
+    $query = $student->getUpdateQuery();
+    $result = insertDatabase($query);
+    echo "<div class='form'>
+        <h3>You updated your account!</h3><br/>
+        </div>";
+    return;
 }
 
 function beginLogin($username, $password) {

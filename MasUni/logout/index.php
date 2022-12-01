@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Logout Page</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../dashboard/dash_header.css" />
 </head>
 <body>
 <?php 

@@ -40,8 +40,6 @@ class DisplayStudent implements Display {
             $assoc["secondary_minor"] = null;
         }
         $assoc['filepath'] = generateFolderExtension();
-        $assoc["loginID"] = cleanUserInput($assoc["loginID"]);
-        $assoc["infoID"] = cleanUserInput($assoc["infoID"]);
         $assoc["first_name"] = cleanUserInput($assoc["first_name"]);
         $assoc["last_name"] = cleanUserInput($assoc["last_name"]);
         $assoc["preferred_name"] = cleanUserInput($assoc["preferred_name"]);
@@ -60,6 +58,48 @@ class DisplayStudent implements Display {
         $student->flagRegistering();
         return $student;
     }
+
+    
+    private static function preferNewEntry($new, $old) {
+        if ($new === null or strcmp($new, "")==0) {
+            return $old;
+        } else {
+            return $new;
+        }
+    }
+
+    public static function ConstructUpdateFromForm(DisplayUser $display, $assoc) {
+        $assoc["graduation_year"] = intval(explode("-", $assoc["graduation_date"])[0]);
+        $assoc["graduation_month"] = intval(explode("-", $assoc["graduation_date"])[1]);
+        if ($assoc["primary_major"] === null and $assoc["secondary_major"] !== null) {
+            $assoc["primary_major"] = $assoc["secondary_major"];
+            $assoc["secondary_major"] = null;
+        }
+        if ($assoc["primary_minor"] === null and $assoc["secondary_minor"] !== null) {
+            $assoc["primary_minor"] = $assoc["secondary_minor"];
+            $assoc["secondary_minor"] = null;
+        }
+        $assoc["first_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["first_name"]), $display->getFirstName());
+        $assoc["last_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["last_name"]), $display->getLastName());
+        $assoc["preferred_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["preferred_name"]), $display->getPreferredName());
+        $assoc["graduation_month"] = intval(DisplayStudent::preferNewEntry(cleanUserInput($assoc["graduation_month"]), $display->getGraduationMonth()));
+        $assoc["graduation_year"] = intval(DisplayStudent::preferNewEntry(cleanUserInput($assoc["graduation_year"]), $display->getGraduationYear()));
+        $assoc["university"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["university"]), $display->getUniversity());
+        $assoc["primary_major"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["primary_major"]), $display->getPrimMajor());
+        $assoc["secondary_major"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["secondary_major"]), $display->getSecMajor());
+        $assoc["primary_minor"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["primary_minor"]), $display->getPrimMinor());
+        $assoc["secondary_minor"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["secondary_minor"]), $display->getSecMinor());
+        $assoc["skills"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["skills"]), $display->getSkills());
+        $assoc["status"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["status"]), $display->getStatus());
+        $assoc["link_extension"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["link_extension"]), $display->getLink());
+
+        $assoc["filepath"] = $display->getFilepath();
+        $assoc["loginID"] = $display->getUserID();
+        $assoc["infoID"] = $display->getDisplayID();
+
+        return new DisplayStudent($assoc);
+    }
+
 
     public function __construct($assoc) {
         $this->userID = $assoc["loginID"];
@@ -104,6 +144,26 @@ class DisplayStudent implements Display {
             "', '" . $this->getPrimMinor() . "','" . $this->getSecMinor() .
             "', '" . $this->getSkills() . "', '" . $this->getFilepath() .
             "', '" . $this->getStatus() . "', '" . $this->getLink() . "')";
+        return $query;
+    }
+
+    public function getUpdateQuery() {
+        $query = "UPDATE `USER_DATA` SET 
+                first_name='" . $this->getFirstName() . "'
+                last_name='" . $this->getLastName() . "'
+                preferred_name='" . $this->getPreferredName() . "'
+                graduation_month ='" . $this->getGraduationMonth() . "'
+                graduation_year='" . $this->getGraduationYear() . "'
+                university='" . $this->getUniversity() . "'
+                primary_major='" . $this->getPrimMajor() . "'
+                secondary_major='" . $this->getSecMajor() . "'
+                primary_minor='" . $this->getPrimMinor() . "'
+                secondary_major='" . $this->getSecMinor() . "'
+                skills='" . $this->getSkills() . "'
+                filepath='" . $this->getFilepath() . "'
+                status='" . $this->getStatus() . "'
+                link_extension='" . $this->getLink() . "'
+                WHERE userID='" . $this->getDisplayID() . "'";
         return $query;
     }
 
@@ -257,6 +317,10 @@ class DisplayStudent implements Display {
 
     public function getStatus() {
         return $this->emptyIfDefault($this->status);
+    }
+
+    public function getUserID() {
+        return $this->emptyIfDefault($this->userID);
     }
 
     public static function fromUserID($userID, $username){
