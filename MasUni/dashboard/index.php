@@ -64,16 +64,15 @@ to prospective students across the country.</p>
     ?>
       <div class="upload">
         <form action="" method="post" enctype="multipart/form-data">
-          Select files to upload:
-          <input type="file" name="fileToUpload" id="fileToUpload">
+        Select files to upload:
+        <input type="file" name="fileToUpload" id="fileToUpload">
           <input type="submit" value="Upload Image" name="submit-file">
         </form>
       </div>
       <?php 
         if (isset($_POST["submit-file"])) {
-          include_once "../../../util/upload.php";
+          include "../../../util/upload.php";
           uploadImage(unserialize($_SESSION["user"]));
         }
       ?>
 </body>
-</html>
