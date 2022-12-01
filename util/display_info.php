@@ -149,6 +149,7 @@ class DisplayStudent implements Display {
         return $query;
     }
 
+
     public function getUpdateQuery() {
         $query = "UPDATE `USER_DATA` SET 
                 first_name='" . $this->getFirstName() . "'

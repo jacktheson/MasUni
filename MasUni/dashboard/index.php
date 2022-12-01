@@ -28,11 +28,6 @@ to prospective students across the country.</p>
     <div class="form">
         <p>Hey, <?php echo unserialize($_SESSION['user'])->getUsername(); ?>!</p>
         <p>You are now on the user dashboard page.</p>
-        <?php 
-            if (unserialize($_SESSION['user'])->isAdmin()) {
-                echo '<p><a href="../admin">Admin Panel</a></p>';
-            }
-        ?>
     </div>
     <?php
       include_once "../../../util/profile_creation.php";

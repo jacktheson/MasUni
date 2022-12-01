@@ -53,6 +53,7 @@ function createAccount($username, $email, $password) {
 
 }
 
+
 function nonUniqueLink() {
     echo "<div class='form'>
         <h3>Think account failed to be created - your link was already in use.</h3><br/>
