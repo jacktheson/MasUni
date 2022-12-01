@@ -7,6 +7,10 @@
 </head>
 <body>
 <?php
+  include_once("../../../util/navbar.php");
+  outputNavBar(1);
+?>
+<?php
     require('../../../util/info.php');
     // When form submitted, insert values into the database.
     if (isset($_REQUEST['username'])) {

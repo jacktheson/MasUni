@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once "../../util/user_info.php";
+include_once "../../../util/user_info.php";
 ?>
 <html>
 <head>
@@ -19,22 +19,10 @@ include_once "../../util/user_info.php";
 to prospective students across the country.</p>
 </div>
 
-<div class="topnav">
-  <?php 
-    if (!isSet($_SESSION["user"])) {
-      echo "<a href='../login'>User Login</a>";
-      echo "<a href='../'>Back to Home</a>"; 
-    } else {
-      echo "<a href='../logout'>Logout</a>";
-      echo "<a href='../dashboard'>Back to Dashboard</a>";
-    }
-    if (isSet($_SESSION["user"])) {
-      if (unserialize($_SESSION["user"])->isAdmin()) {
-        echo '<a href="./admin" style="float:right">Admin Panel</a>';
-      }
-    }
-  ?>
-</div>
+<?php
+  include_once("../../../util/navbar.php");
+  outputNavBar(1);
+?>
 
 </body>
 </html>

@@ -9,8 +9,6 @@ interface Display {
 
 class DisplayStudent implements Display {
 
-    private $gradYear;
-    private $primMajor;
     private $userID;
     private $displayID;
     private $firstName;
@@ -29,7 +27,8 @@ class DisplayStudent implements Display {
     private $filepath;
     private $registering = FALSE;
 
-    public static ConstructNewRegisterFromForm($assoc) {
+    
+    public static function ConstructNewRegisterFromForm($assoc) {
         $assoc["graduation_year"] = intval(explode("-", $assoc["graduation_date"])[0]);
         $assoc["graduation_month"] = intval(explode("-", $assoc["graduation_date"])[1]);
         if ($assoc["primary_major"] === null and $assoc["secondary_major"] !== null) {
@@ -41,18 +40,35 @@ class DisplayStudent implements Display {
             $assoc["secondary_minor"] = null;
         }
         $assoc['filepath'] = generateFolderExtension();
+        $assoc["loginID"] = cleanUserInput($assoc["loginID"]);
+        $assoc["infoID"] = cleanUserInput($assoc["infoID"]);
+        $assoc["first_name"] = cleanUserInput($assoc["first_name"]);
+        $assoc["last_name"] = cleanUserInput($assoc["last_name"]);
+        $assoc["preferred_name"] = cleanUserInput($assoc["preferred_name"]);
+        $assoc["graduation_month"] = intval(cleanUserInput($assoc["graduation_month"]));
+        $assoc["graduation_year"] = intval(cleanUserInput($assoc["graduation_year"]));
+        $assoc["university"] = cleanUserInput($assoc["university"]);
+        $assoc["primary_major"] = cleanUserInput($assoc["primary_major"]);
+        $assoc["secondary_major"] = cleanUserInput($assoc["secondary_major"]);
+        $assoc["primary_minor"] = cleanUserInput($assoc["primary_minor"]);
+        $assoc["secondary_minor"] = cleanUserInput($assoc["secondary_minor"]);
+        $assoc["skills"] = cleanUserInput($assoc["skills"]);
+        $assoc["filepath"] = cleanUserInput($assoc["filepath"]);
+        $assoc["status"] = cleanUserInput($assoc["status"]);
+        $assoc["link_extension"] = cleanUserInput($assoc["link_extension"]);
         $student = new DisplayStudent($assoc);
         $student->flagRegistering();
+        return $student;
     }
 
     public function __construct($assoc) {
-        $this->userID = cleanUserInput($assoc["loginID"]);
-        $this->displayID = cleanUserInput($assoc["infoID"];
-        $this->firstName = cleanUserInput($assoc["first_name"];
-        $this->lastName = cleanUserInput($assoc["last_name"];
-        $this->preferredName = cleanUserInput($assoc["preferred_name"];
-        $this->gradMonth = intval(cleanUserInput($assoc["graduation_month"]));
-        $this->gradYear = intval$assoc["graduation_year"];4c5a5f1a97d3fd90e19c
+        $this->userID = $assoc["loginID"];
+        $this->displayID = $assoc["infoID"];
+        $this->firstName = $assoc["first_name"];
+        $this->lastName = $assoc["last_name"];
+        $this->preferredName = $assoc["preferred_name"];
+        $this->gradMonth = intval($assoc["graduation_month"]);
+        $this->gradYear = intval($assoc["graduation_year"]);
         $this->school = $assoc["university"];
         $this->primMajor = $assoc["primary_major"];
         $this->secMajor = $assoc["secondary_major"];
@@ -69,14 +85,26 @@ class DisplayStudent implements Display {
     }
 
     public function isRegistering() {
-        return $this->registering();
+        return $this->registering;
     }
 
-    public function insertionQuery() {
+    public function getInsertionQuery() {
+        if (!$this->registering) {
+            return "";
+        }
+        $this->registering = FALSE;
         $query = "INSERT INTO `USER_DATA` (first_name, last_name, 
             preferred_name, graduation_month, graduation_year, 
             university, primary_major, secondary_major, primary_minor, 
-            secondary_minor, skills, filepath, `status`, link_extension)"
+            secondary_minor, skills, filepath, `status`, link_extension) 
+            VALUES ('" . $this->getFirstName() . "', '" . $this->getLastName() .
+            "', '" . $this->getPreferredName() . "', " . $this->getGraduationMonth() .
+            ", " . $this->getGraduationYear() . ", '" . $this->getUniversity().
+            "', '" . $this->getPrimMajor() . "','" . $this->getSecMajor() . 
+            "', '" . $this->getPrimMinor() . "','" . $this->getSecMinor() .
+            "', '" . $this->getSkills() . "', '" . $this->getFilepath() .
+            "', '" . $this->getStatus() . "', '" . $this->getLink() . "')";
+        return $query;
     }
 
     public function displayPortfolio() {
@@ -86,7 +114,7 @@ class DisplayStudent implements Display {
 
     public function toHTMLPreview(){
         $html = "<h3>" . $this->getName() . "</h3>";
-        if ($this->getUniversity != null) {
+        if (!strcmp($this->getUniversity(), "")) {
             $html = $html . "College: " . $this->getUniversity() . "<br>";
         }
         if ($this->getGraduationYear() != null) {
@@ -99,6 +127,55 @@ class DisplayStudent implements Display {
             $html = $html . "<a href=../portfolio/?p=" . $this->linkExt . "> Portfolio </a><br>";
         }
         echo $html . "<br>";
+    }
+
+    private function monthIntToName($int) {
+        switch ($int) {
+            case 1: return "January";
+            case 2: return "February";
+            case 3: return "March";
+            case 4: return "April";
+            case 5: return "May";
+            case 6: return "June";
+            case 7: return "July";
+            case 8: return "August";
+            case 9: return "September";
+            case 10: return "October";
+            case 11: return "November";
+            case 12: return "December";
+            default: return "";
+        }
+    }
+
+    public function toHTMLPortfolioBegin() {
+        $html = "<h2>" . $this->getName() . "</h2>";
+        if (strcmp($this->getUniversity(), "") != 0) {
+            $html = $html . "<strong>College: </strong> " . $this->getUniversity();
+            if (strcmp($this->getGraduationMonth(), "") != 0 or strcmp($this->getGraduationYear(), "") != 0) {
+                $html = $html . "&emsp;&emsp;<strong>Graduation: </strong>" . 
+                    $this->monthIntToName($this->getGraduationMonth()) . " " .
+                    $this->getGraduationYear();
+            }
+            $html = $html . "<br>";
+        }
+        if (strcmp($this->getPrimMajor(), "") != 0) {
+            $html = $html . "<strong>Major: </strong> " . $this->getPrimMajor();
+            if (strcmp($this->getSecMajor(), "") != 0) {
+                $html = $html . ", " . $this->getSecMajor();
+            }
+            $html = $html . "<br>";
+        }
+        if (strcmp($this->getPrimMinor(), "") != 0) {
+            $html = $html . "<strong>Minor: </strong> " . $this->getPrimMinor();
+            if (strcmp($this->getSecMinor(), "") != 0) {
+                $html = $html . ", " . $this->getSecMinor();
+            }
+            $html = $html . "<br>";
+        }
+        if (strcmp($this->getSkills(), "") != 0) {
+            $html = $html . "<strong>Skills: </strong>" . $this->getSkills() . "<br>";
+        }
+        echo $html;
     }
 
     protected function emptyIfDefault($val, $default=null) {
@@ -136,6 +213,10 @@ class DisplayStudent implements Display {
 
     public function getGraduationYear() {
         return $this->emptyIfDefault($this->gradYear);
+    }
+
+    public function getGraduationMonth() {
+        return $this->emptyIfDefault($this->gradMonth);
     }
 
     public function getPrimMajor(){

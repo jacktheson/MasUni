@@ -80,6 +80,6 @@ function querySaltFor($username) {
     return $salt;
 }
 
-function checkFolderNameUnique($folderName){
+function checkFolderNameExists($folderName){
     return checkDisplayInfoEntryExists("filepath",$folderName);
 }

@@ -9,7 +9,7 @@ function createSalt() {
 
 function generateFolderExtension() {
     $folderName = generateRandomString(10);
-    while(!checkFolderNameUnique($folderName)){
+    while(checkFolderNameExists($folderName)){
         $folderName = generateRandomString(10);
     }
     return $folderName;
@@ -51,11 +51,12 @@ function createAccount($username, $email, $password) {
 	return TRUE;
 }
 
-function createStudent(DisplayStudent $student) {
+function createStudent($assoc) {
+    $student = DisplayStudent::ConstructNewRegisterFromForm($assoc);
     if (checkLinkExists($student->getLink())) {
         return FALSE;
     }
-    $query = $student->getInsertQuery();
+    $query = $student->getInsertionQuery();
     $result = insertDatabase($query);
     return TRUE;
 }

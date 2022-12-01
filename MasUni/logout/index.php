@@ -9,6 +9,9 @@
 <body>
 <?php 
    session_destroy();
+   include_once("../../../util/navbar.php");
+   outputNavBar(1);
+
 ?>
     <div class="form">
         <p>You have logged out successfully.<br>

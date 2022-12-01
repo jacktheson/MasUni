@@ -1,13 +1,16 @@
 <?php 
 session_start();
 require('../../../util/info.php');
-if(checkAdmin($_SESSION['userID'])){
-    if (isset($_REQUEST['FirstName'])){
-        $madeAccount = createStudent(new DisplayStudent($_REQUEST));
+include_once "../../../util/profile_creation.php";
+include_once("../../../util/navbar.php");
+outputNavBar(1);
+if(isset($_SESSION['user']) and unserialize($_SESSION['user'])->isAdmin()){
+    if (isset($_REQUEST['first_name'])){
+        $madeAccount = createStudent($_REQUEST);
         if ($madeAccount) {
             echo "<div class='form'>
                   <h3>You created a Student!.</h3><br/>
-                  <p class='link'>Click here to return to <a href='../admin'>Admin Panel</a>.</p>
+                  <p class='link'>Click here to return to <a href='./'>Admin Panel</a>.</p>
                   </div>";
         } else {
             echo "<div class='form'>
@@ -24,7 +27,7 @@ if(checkAdmin($_SESSION['userID'])){
     <link rel="stylesheet" href="style.css" />
 </head>
 <?php
-    profileCreationHTML(unserialize($_SESSION['user']), TRUE);
+    adminProfileCreationHTML(unserialize($_SESSION['user']));
 ?>
 <div>
     <p class='link'>Back to <a href='../dashboard'>Homepage</a>.<p/>
