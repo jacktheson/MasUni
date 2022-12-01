@@ -100,7 +100,6 @@ class DisplayStudent implements Display {
         return new DisplayStudent($assoc);
     }
 
-
     public function __construct($assoc) {
         $this->userID = $assoc["loginID"];
         $this->displayID = $assoc["infoID"];
@@ -146,6 +145,7 @@ class DisplayStudent implements Display {
             "', '" . $this->getStatus() . "', '" . $this->getLink() . "')";
         return $query;
     }
+
 
     public function getUpdateQuery() {
         $query = "UPDATE `USER_DATA` SET 
