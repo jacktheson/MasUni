@@ -53,19 +53,27 @@ to prospective students across the country.</p>
           if ($user->getDisplay() === null) {
             createStudent($user, $_REQUEST);
             $_SESSION['user'] = serialize($user->refresh());
+            header("Refresh:0");
           } else {
             updateStudent($user, $_REQUEST);
             $_SESSION['user'] = serialize($user->refresh());
+            header("Refresh:0");
           }
         }  
       }
     ?>
       <div class="upload">
-        <form action="../../../util/upload.php" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data">
           Select files to upload:
           <input type="file" name="fileToUpload" id="fileToUpload">
-          <input type="submit" value="Upload Image" name="submit">
+          <input type="submit" value="Upload Image" name="submit-file">
         </form>
       </div>
+      <?php 
+        if (isset($_POST["submit-file"])) {
+          include_once "../../../util/upload.php";
+          uploadImage(unserialize($_SESSION["user"]));
+        }
+      ?>
 </body>
 </html>

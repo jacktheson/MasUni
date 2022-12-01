@@ -63,7 +63,7 @@ function nonUniqueLink() {
 
 function createStudent(UserStudent $stud=null, $assoc) {
     if ($stud !== null) {
-        $assoc["loginID"] = $stud->getUserID;
+        $assoc["loginID"] = $stud->getUserID();
     }
     $student = DisplayStudent::ConstructNewRegisterFromForm($assoc);
     if (checkLinkExists($student->getLink())) {

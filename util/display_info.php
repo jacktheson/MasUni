@@ -152,21 +152,21 @@ class DisplayStudent implements Display {
 
     public function getUpdateQuery() {
         $query = "UPDATE `USER_DATA` SET 
-                first_name='" . $this->getFirstName() . "'
-                last_name='" . $this->getLastName() . "'
-                preferred_name='" . $this->getPreferredName() . "'
-                graduation_month ='" . $this->getGraduationMonth() . "'
-                graduation_year='" . $this->getGraduationYear() . "'
-                university='" . $this->getUniversity() . "'
-                primary_major='" . $this->getPrimMajor() . "'
-                secondary_major='" . $this->getSecMajor() . "'
-                primary_minor='" . $this->getPrimMinor() . "'
-                secondary_major='" . $this->getSecMinor() . "'
-                skills='" . $this->getSkills() . "'
-                filepath='" . $this->getFilepath() . "'
-                status='" . $this->getStatus() . "'
+                first_name='" . $this->getFirstName() . "',
+                last_name='" . $this->getLastName() . "',
+                preferred_name='" . $this->getPreferredName() . "',
+                graduation_month ='" . $this->getGraduationMonth() . "',
+                graduation_year='" . $this->getGraduationYear() . "',
+                university='" . $this->getUniversity() . "',
+                primary_major='" . $this->getPrimMajor() . "',
+                secondary_major='" . $this->getSecMajor() . "',
+                primary_minor='" . $this->getPrimMinor() . "',
+                secondary_major='" . $this->getSecMinor() . "',
+                skills='" . $this->getSkills() . "',
+                filepath='" . $this->getFilepath() . "',
+                status='" . $this->getStatus() . "',
                 link_extension='" . $this->getLink() . "'
-                WHERE infoID='" . $this->getDisplayID() . "',
+                WHERE infoID='" . $this->getDisplayID() . "' AND 
                     loginID='" . $this->getUserID() . "'";
         return $query;
     }
