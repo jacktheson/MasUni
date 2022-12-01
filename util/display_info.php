@@ -68,7 +68,8 @@ class DisplayStudent implements Display {
         }
     }
 
-    public static function ConstructUpdateFromForm(DisplayUser $display, $assoc) {
+    public static function ConstructUpdateFromForm(UserStudent $user, $assoc) {
+        $display = $user->getDisplay();
         $assoc["graduation_year"] = intval(explode("-", $assoc["graduation_date"])[0]);
         $assoc["graduation_month"] = intval(explode("-", $assoc["graduation_date"])[1]);
         if ($assoc["primary_major"] === null and $assoc["secondary_major"] !== null) {
@@ -79,6 +80,9 @@ class DisplayStudent implements Display {
             $assoc["primary_minor"] = $assoc["secondary_minor"];
             $assoc["secondary_minor"] = null;
         }
+
+        $assoc["loginID"] = $user->getUserID();
+
         $assoc["first_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["first_name"]), $display->getFirstName());
         $assoc["last_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["last_name"]), $display->getLastName());
         $assoc["preferred_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["preferred_name"]), $display->getPreferredName());
@@ -94,7 +98,6 @@ class DisplayStudent implements Display {
         $assoc["link_extension"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["link_extension"]), $display->getLink());
 
         $assoc["filepath"] = $display->getFilepath();
-        $assoc["loginID"] = $display->getUserID();
         $assoc["infoID"] = $display->getDisplayID();
 
         return new DisplayStudent($assoc);
@@ -135,35 +138,37 @@ class DisplayStudent implements Display {
         $query = "INSERT INTO `USER_DATA` (first_name, last_name, 
             preferred_name, graduation_month, graduation_year, 
             university, primary_major, secondary_major, primary_minor, 
-            secondary_minor, skills, filepath, `status`, link_extension) 
+            secondary_minor, skills, filepath, `status`, link_extension, 
+            loginID) 
             VALUES ('" . $this->getFirstName() . "', '" . $this->getLastName() .
             "', '" . $this->getPreferredName() . "', " . $this->getGraduationMonth() .
             ", " . $this->getGraduationYear() . ", '" . $this->getUniversity().
             "', '" . $this->getPrimMajor() . "','" . $this->getSecMajor() . 
             "', '" . $this->getPrimMinor() . "','" . $this->getSecMinor() .
             "', '" . $this->getSkills() . "', '" . $this->getFilepath() .
-            "', '" . $this->getStatus() . "', '" . $this->getLink() . "')";
+            "', '" . $this->getStatus() . "', '" . $this->getLink() . 
+            "', '" . $this->getUserID() . "')";
         return $query;
     }
 
-
     public function getUpdateQuery() {
         $query = "UPDATE `USER_DATA` SET 
-                first_name='" . $this->getFirstName() . "'
-                last_name='" . $this->getLastName() . "'
-                preferred_name='" . $this->getPreferredName() . "'
-                graduation_month ='" . $this->getGraduationMonth() . "'
-                graduation_year='" . $this->getGraduationYear() . "'
-                university='" . $this->getUniversity() . "'
-                primary_major='" . $this->getPrimMajor() . "'
-                secondary_major='" . $this->getSecMajor() . "'
-                primary_minor='" . $this->getPrimMinor() . "'
-                secondary_major='" . $this->getSecMinor() . "'
-                skills='" . $this->getSkills() . "'
-                filepath='" . $this->getFilepath() . "'
-                status='" . $this->getStatus() . "'
+                first_name='" . $this->getFirstName() . "',
+                last_name='" . $this->getLastName() . "',
+                preferred_name='" . $this->getPreferredName() . "',
+                graduation_month ='" . $this->getGraduationMonth() . "',
+                graduation_year='" . $this->getGraduationYear() . "',
+                university='" . $this->getUniversity() . "',
+                primary_major='" . $this->getPrimMajor() . "',
+                secondary_major='" . $this->getSecMajor() . "',
+                primary_minor='" . $this->getPrimMinor() . "',
+                secondary_major='" . $this->getSecMinor() . "',
+                skills='" . $this->getSkills() . "',
+                filepath='" . $this->getFilepath() . "',
+                status='" . $this->getStatus() . "',
                 link_extension='" . $this->getLink() . "'
-                WHERE userID='" . $this->getDisplayID() . "'";
+                WHERE infoID='" . $this->getDisplayID() . "' AND 
+                    loginID='" . $this->getUserID() . "'";
         return $query;
     }
 
@@ -174,13 +179,13 @@ class DisplayStudent implements Display {
 
     public function toHTMLPreview(){
         $html = "<h3>" . $this->getName() . "</h3>";
-        if (!strcmp($this->getUniversity(), "")) {
+        if ($this->getUniversity() !== null and strcmp($this->getUniversity(), "") != 0) {
             $html = $html . "College: " . $this->getUniversity() . "<br>";
         }
-        if ($this->getGraduationYear() != null) {
+        if ($this->getGraduationYear() !== null and strcmp($this->getGraduationYear(), "") != 0) {
             $html = $html . "Graduation Year: " . $this->getGraduationYear() . "<br>";
         }
-        if ($this->getPrimMajor() != null) {
+        if ($this->getPrimMajor() !== null and strcmp($this->getPrimMajor(),"") == 0) {
             $html = $html . "Major: " . $this->getPrimMajor() . "<br>";
         }
         if (checkLinkExists($this->linkExt)) {
@@ -209,6 +214,10 @@ class DisplayStudent implements Display {
 
     public function toHTMLPortfolioBegin() {
         $html = "<h2>" . $this->getName() . "</h2>";
+	if(strcmp($this->getPreferredName(),"") != 0){
+		$html = $html . "<strong>Preferred Name: </strong> " . $this->getPreferredName();
+		$html = $html . "<br>";
+	}
         if (strcmp($this->getUniversity(), "") != 0) {
             $html = $html . "<strong>College: </strong> " . $this->getUniversity();
             if (strcmp($this->getGraduationMonth(), "") != 0 or strcmp($this->getGraduationYear(), "") != 0) {
@@ -235,6 +244,9 @@ class DisplayStudent implements Display {
         if (strcmp($this->getSkills(), "") != 0) {
             $html = $html . "<strong>Skills: </strong>" . $this->getSkills() . "<br>";
         }
+	if (strcmp($this->getLink(), "") != 0) {
+            $html = $html . "<strong>Link: </strong>" . $this->getLink() . "<br>";
+        }
         echo $html;
     }
 
@@ -251,7 +263,12 @@ class DisplayStudent implements Display {
     }
 
     public function getName() {
-        return $this->emptyIfDefault($this->firstName . " " . $this->lastName, " ");
+	if(strcmp($this->getPreferredName(),"") != 0){
+		return $this->emptyIfDefault($this->firstName . " '" . $this->preferredName . "' " . $this->lastName, " ");
+
+	} else {
+ return $this->emptyIfDefault($this->firstName . " " . $this->preferredName . " " . $this->lastName, " ");
+	}
     }
 
     public function getFirstName() {

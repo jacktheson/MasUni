@@ -26,22 +26,54 @@ to prospective students across the country.</p>
   outputNavBar(1);
 ?>
     <div class="form">
-        <p>Hey, <?php echo unserialize($_SESSION['user'])->getUsername(); ?>!</p>
-        <p>You are now on the user dashboard page.</p>
+        <?php 
+          $user = unserialize($_SESSION['user']); 
+          $name = "";
+          if ($user->getDisplay() !== null) {
+            $name = $user->getDisplay()->getPreferredName();
+            if (strcmp($name, "") == 0) {
+              $name = $user->getDisplay()->getFirstName();
+            }
+          } 
+
+          if (strcmp($name, "") == 0) {
+            $name = $user->getUsername();
+          }
+          echo "<p>Hey, " . $name . "!</p>
+              <p>You are now on the user dashboard page.</p>";
+        ?>
     </div>
     <?php
+      include_once "../../../util/profile_creation.php";
+      include_once "../../../util/info.php";
       $user = unserialize($_SESSION['user']);
-      selfProfileCreationHTML($user);
-      if (isset($_SESSION["first_name"])) {
-        
+      if ($user instanceof UserStudent) {
+        selfProfileCreationHTML($user);
+        if (isset($_REQUEST["first_name"])) {
+          if ($user->getDisplay() === null) {
+            createStudent($user, $_REQUEST);
+            $_SESSION['user'] = serialize($user->refresh());
+            header("Refresh:0");
+          } else {
+            updateStudent($user, $_REQUEST);
+            $_SESSION['user'] = serialize($user->refresh());
+            header("Refresh:0");
+          }
+        }  
       }
     ?>
       <div class="upload">
-        <form action="../../../util/upload.php" method="post" enctype="multipart/form-data">
-        Â Â Select files to upload:
-        Â Â <input type="file" name="fileToUpload" id="fileToUpload">
-          <input type="submit" value="Upload Image" name="submit">
+        <form action="" method="post" enctype="multipart/form-data">
+          Select files to upload:
+          <input type="file" name="fileToUpload" id="fileToUpload">
+          <input type="submit" value="Upload Image" name="submit-file">
         </form>
       </div>
+      <?php 
+        if (isset($_POST["submit-file"])) {
+          include "../../../util/upload.php";
+          uploadImage(unserialize($_SESSION["user"]));
+        }
+      ?>
 </body>
 </html>

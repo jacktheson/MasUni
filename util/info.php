@@ -34,22 +34,22 @@ function createAccount($username, $email, $password) {
         <h3>This username is already in use. Please pick a new one, or log into your old account.</h3><br/>
         <p class='link'>Click here to <a href='./'>registration</a> again.</p>
         </div>";
-        return;
+        return null;
     }
     if (checkEmailExists($email)){ 
         echo "<div class='form'>
         <h3>This email is already in use. Please pick a new one, or log into your old account.</h3><br/>
         <p class='link'>Click here to <a href='../login'>login</a>.</p>
         </div>";
-        return;
+        return null;
     } 
     $salt = createSalt();
     $hashedPassword = hashPassword($password, $salt);
     $query    = "INSERT into `USER_LOGIN` (username, hashedPassword, email, salt, isStudent)
                     VALUES ('$username', '$hashedPassword', '$email' , '$salt', 1)";
     $result   = insertDatabase($query);
-
-	return;
+    
+    return beginLogin($username, $password);
 
 }
 
@@ -61,7 +61,10 @@ function nonUniqueLink() {
         </div>";
 }
 
-function createStudent($assoc) {
+function createStudent(UserStudent $stud=null, $assoc) {
+    if ($stud !== null) {
+        $assoc["loginID"] = $stud->getUserID();
+    }
     $student = DisplayStudent::ConstructNewRegisterFromForm($assoc);
     if (checkLinkExists($student->getLink())) {
         nonUniqueLink();
@@ -72,14 +75,19 @@ function createStudent($assoc) {
     echo "<div class='form'>
               <h3>You created a Student!</h3><br/>
               </div>";
-    return;
+    return $student;
 }
 
-function updateStudent(User $user, $assoc) {
+function updateStudent(UserStudent $user, $assoc) {
+    
     $student = DisplayStudent::ConstructUpdateFromForm($user, $assoc);
     if (checkLinkExists($student->getLink())) {
-        nonUniqueLink();
-        return;
+        $query = "SELECT COUNT(*) as `total` FROM `USER_DATA` WHERE `link_extension`='". $student->getLink() .
+         "' AND NOT `loginID`='" . $student->getUserID() . "'";
+        if (queryDatabase($query)->fetch_assoc()["total"] > 0) {
+            nonUniqueLink();
+            return;
+        }
     }
     $query = $student->getUpdateQuery();
     $result = insertDatabase($query);
