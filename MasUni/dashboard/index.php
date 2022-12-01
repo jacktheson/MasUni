@@ -21,44 +21,13 @@ include_once("../../../util/user_info.php");
   <p>Our Goal: Connect companies with gigs
 to prospective students across the country.</p>
 </div>
-
-<div class="topnav">
-  <?php 
-    if (!isSet($_SESSION["user"])) {
-      echo "<a href='./login'>User Login</a>";
-    } else {
-      echo "<a href='../logout'>Logout</a>";
-    }
-  ?>
-  <a href="../students">View All Students</a>
-  
-  <?php 
-    if (isSet($_SESSION["user"])) {
-        if (unserialize($_SESSION["user"])->isAdmin()) {
-            echo '<a href="./admin" style="float:right">Admin Panel</a>';
-        }
-    }
-    if (isSet($_SESSION["user"])) {
-      if (unserialize($_SESSION["user"])->isAdmin()) {
-        echo '<a href="./admin" style="float:right">Admin Panel</a>';
-      } else {
-          die ("Failed isAdmin." . $_SESSION["user"]);
-      }
-    } else {
-        die ("No session.");
-    }
-  ?>
-</div>
-
-
+<?php
+  include_once("../../../util/navbar.php");
+  outputNavBar(1);
+?>
     <div class="form">
         <p>Hey, <?php echo unserialize($_SESSION['user'])->getUsername(); ?>!</p>
         <p>You are now on the user dashboard page.</p>
-        <?php 
-            if (unserialize($_SESSION['user'])->isAdmin()) {
-                echo '<p><a href="../admin">Admin Panel</a></p>';
-            }
-        ?>
     </div>
 
     <input

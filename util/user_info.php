@@ -29,7 +29,7 @@ class UserStudent implements User {
     }
 
     public function isAdmin() {
-        return $this->isAdmin != 0;
+        return $this->admin;
     }
 
     public function getDisplay(){ 
@@ -57,14 +57,13 @@ class Viewer implements User {
     }
 
     public function isAdmin() {
-        return $this->isAdmin != 0;
+        return $this->admin;
     }
 }
 
 class UserFactory {
     public static function build($isStudent, $username, $userID, $admin) {
         $admin = (strcmp($admin, "1") == 0);
-        die($admin . " | " . gettype($admin));
         if ($isStudent) {
             return new UserStudent($username, $userID, $admin);
         } else {

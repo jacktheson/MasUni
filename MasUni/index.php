@@ -21,24 +21,10 @@
 to prospective students across the country.</p>
 </div>
 
-<div class="topnav">
-  <?php 
-    if (!isSet($_SESSION["user"])) {
-      echo "<a href='./login'>User Login</a>";
-    } else {
-      echo "<a href='./logout'>Logout</a>";
-    }
-  ?>
-  <a href="./register">Register</a>
-  <a href="./students">View All Students</a>
-  <?php 
-    if (isSet($_SESSION["user"])) {
-      if (unserialize($_SESSION["user"])->isAdmin()) {
-        echo '<a href="./admin" style="float:right">Admin Panel</a>';
-      }
-    }
-  ?>
-</div>
+<?php
+  include_once("../../util/navbar.php");
+  outputNavBar(0);
+?>
 
 </body>
 

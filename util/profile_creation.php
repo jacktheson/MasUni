@@ -1,7 +1,10 @@
 <?php 
 
+date_default_timezone_set("America/New_York");
+
 function getInputLine($type, $name, $placeholder, $value, $isRequired=FALSE) {
-    $line = '<input type="' . $type . '" name="' . $name .
+    $line = '<label for="' . $name . '">' . $placeholder . ":&emsp;</label>";
+    $line = $line . '<input type="' . $type . '" name="' . $name .
      '" placeholder="' . $placeholder . '" value="' . $value .
       '" ' . ($isRequired ? "required" : "") . "/>";
     if ($isRequired) {
@@ -10,39 +13,43 @@ function getInputLine($type, $name, $placeholder, $value, $isRequired=FALSE) {
     return $line;
 }
 
-function opt($optional){
-    return $optional !== null ? $optional : "";
+function adminProfileCreationHTML(User $user=null){
+    return profileCreationHTML($user, TRUE);
 }
 
-function profileCreationHTML(Display $display=null, $adminAdds=FALSE) {
+function selfProfileCreationHTML(User $user=null){
+    return profileCreationHTML($user, FALSE);
+}
+function profileCreationHTML(User $user=null, $adminAdds) {
 
-    if ($display instanceof DisplayStudent or $adminAdds) {
-
-        if ($adminAdds or $display === null) {
-            $dflt = FALSE;
-        } else {
-            $dflt = TRUE;
-        }
-        $html = '<form class="form" action="" method ="post" >
-        <h1>Student Profile Creation</h1>' .
-        getInputLine("text", "FirstName", "First Name", $dflt ? $display->getFirstName() : "", TRUE) .
-        getInputLine("text", "LastName", "Last Name", $dflt ? $display->getLastName() : "", TRUE) .
-        getInputLine("text", "PreferredName", "Preferred Name", $dflt ? $display->getPreferredName() : "") .
-        getInputLine("text", "University", "University", $dflt ? $display->getUniversity() : "") .
-        getInputLine("text", "Major", "Major", $dflt ? $display->getPrimMajor() : "", TRUE) .
-        getInputLine("text", "SecMajor", "Secondary Major", $dflt ? $display->getSecMajor() : "") .
-        getInputLine("text", "Minor", "Minor", $dflt ? $display->getPrimMinor() : "") .
-        getInputLine("text", "SecMinor", "Secondary Minor", $dflt ? $display->getSecMinor() : "") .
-        getInputLine("text", "Skills", "List Your Skills", $dflt ? $display->getSkills() : "", TRUE) .
-        getInputLine('month" min="' . date("Y-m") . '" value="' . date("Y-m"),
-            "GradMonth", "Graduation Month", $dflt ? $display->getGraduationMonthYearStr() : "", TRUE) .
-        getInputLine("text", "LinkExt", "Link Extension", $dflt ? $display->getLinkExtension() : "", TRUE) .
-        $dflt ? '<input type="submit" name="submit" value="Profile-Create">' :
-                '<input type="sybmit" name="submit" value="Profile-Update">';
+    if ($user instanceof UserStudent or $adminAdds) {
+        $display = $user->getDisplay();
+        $dflt = !($adminAdds or $display == null);
+        $html = '<center><form class="form" action="" method ="post" > <h1>Student Profile Creation</h1>';       
+        $html = $html . getInputLine("text", "first_name", "First Name", $dflt ? $display->getFirstName() : "", TRUE) .
+                getInputLine("text", "last_name", "Last Name", $dflt ? $display->getLastName() : "", TRUE) .
+                getInputLine("text", "preferred_name", "Preferred Name", $dflt ? $display->getPreferredName() : "") .
+                "<br>" .
+                getInputLine("text", "university", "University", $dflt ? $display->getUniversity() : "") .
+                getInputLine("text", "primary_major", "Major", $dflt ? $display->getPrimMajor() : "", TRUE) .
+                getInputLine("text", "secondary_major", "Secondary Major", $dflt ? $display->getSecMajor() : "") .
+                "<br>" .
+                getInputLine("text", "primary_minor", "Minor", $dflt ? $display->getPrimMinor() : "") .
+                getInputLine("text", "secondary_minor", "Secondary Minor", $dflt ? $display->getSecMinor() : "") .
+                "<br>" .
+                getInputLine("text", "skills", "List Your Skills", $dflt ? $display->getSkills() : "", TRUE) .
+                getInputLine('month" min="' . date("Y-m") . '" value="' . date("Y-m"),
+                    "graduation_date", "Graduation Month", $dflt ? $display->getGraduationMonthYearStr() : "", TRUE) .
+                "<br>" .
+                getInputLine("text", "link_extension", "Link Extension", $dflt ? $display->getLink() : "", TRUE) .
+                getInputLine("text", "status", "Status", $dflt ? $display->getStatus() : "") .
+                "<br>";
+        $html = $html . ($dflt ? '<input type="submit" name="submit" value="Update Profile">' :
+                        '<input type="submit" name="submit" value="Create Profile">');
         $html = $html . '</form>';
-        return $html;
+        echo $html;
     } else {
-        return "";
+        echo "";
     }
 
 }
