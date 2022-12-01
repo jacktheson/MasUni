@@ -26,8 +26,22 @@ to prospective students across the country.</p>
   outputNavBar(1);
 ?>
     <div class="form">
-        <p>Hey, <?php echo unserialize($_SESSION['user'])->getUsername(); ?>!</p>
-        <p>You are now on the user dashboard page.</p>
+        <?php 
+          $user = unserialize($_SESSION['user']); 
+          $name = "";
+          if ($user->getDisplay() !== null) {
+            $name = $user->getDisplay()->getPreferredName();
+            if (strcmp($name, "") == 0) {
+              $name = $user->getDisplay()->getFirstName();
+            }
+          } 
+
+          if (strcmp($name, "") == 0) {
+            $name = $user->getUsername();
+          }
+          echo "<p>Hey, " . $name . "!</p>
+              <p>You are now on the user dashboard page.</p>";
+        ?>
     </div>
     <?php
       include_once "../../../util/profile_creation.php";

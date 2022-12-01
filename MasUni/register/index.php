@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +20,14 @@
         $u = $_REQUEST['username'];
         $e = $_REQUEST['email'];
         $p = $_REQUEST['password'];
-        if (createAccount($u, $e, $p)) {
-            echo "<div class='form'>
-                <h3>You are registered successfully.</h3><br/>
-                <p class='link'>Click here to <a href='../login'>Login</a></p>
-                </div>";
+        $user = createAccount($u, $e, $p);
+        if ($user !== null) {
+          $_SESSION["user"] = serialize($user);
+        } else {
+          unset($_SESSION["user"]);
+        }
+        if ($_SESSION["user"]){
+            header("Location: ../dashboard");
         }
     } else {
 ?>
