@@ -6,14 +6,14 @@ include_once("../../../util/navbar.php");
 outputNavBar(1);
 if(isset($_SESSION['user']) and unserialize($_SESSION['user'])->isAdmin()){
     if (isset($_REQUEST['first_name'])){
-        createStudent($_REQUEST);
+        createStudent(unserialize($_SESSION['user']), $_REQUEST);
     } else{
 ?>
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
     <title>Dashboard - Admin area</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../dashboard/dash_header.css" />
 </head>
 <?php
     adminProfileCreationHTML(unserialize($_SESSION['user']));

@@ -68,7 +68,8 @@ class DisplayStudent implements Display {
         }
     }
 
-    public static function ConstructUpdateFromForm(DisplayUser $display, $assoc) {
+    public static function ConstructUpdateFromForm(UserStudent $user, $assoc) {
+        $display = $user->getDisplay();
         $assoc["graduation_year"] = intval(explode("-", $assoc["graduation_date"])[0]);
         $assoc["graduation_month"] = intval(explode("-", $assoc["graduation_date"])[1]);
         if ($assoc["primary_major"] === null and $assoc["secondary_major"] !== null) {
@@ -79,6 +80,9 @@ class DisplayStudent implements Display {
             $assoc["primary_minor"] = $assoc["secondary_minor"];
             $assoc["secondary_minor"] = null;
         }
+
+        $assoc["loginID"] = $user->getUserID();
+
         $assoc["first_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["first_name"]), $display->getFirstName());
         $assoc["last_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["last_name"]), $display->getLastName());
         $assoc["preferred_name"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["preferred_name"]), $display->getPreferredName());
@@ -94,12 +98,10 @@ class DisplayStudent implements Display {
         $assoc["link_extension"] = DisplayStudent::preferNewEntry(cleanUserInput($assoc["link_extension"]), $display->getLink());
 
         $assoc["filepath"] = $display->getFilepath();
-        $assoc["loginID"] = $display->getUserID();
         $assoc["infoID"] = $display->getDisplayID();
 
         return new DisplayStudent($assoc);
     }
-
 
     public function __construct($assoc) {
         $this->userID = $assoc["loginID"];
@@ -163,7 +165,8 @@ class DisplayStudent implements Display {
                 filepath='" . $this->getFilepath() . "'
                 status='" . $this->getStatus() . "'
                 link_extension='" . $this->getLink() . "'
-                WHERE userID='" . $this->getDisplayID() . "'";
+                WHERE infoID='" . $this->getDisplayID() . "',
+                    loginID='" . $this->getUserID() . "'";
         return $query;
     }
 
@@ -174,13 +177,13 @@ class DisplayStudent implements Display {
 
     public function toHTMLPreview(){
         $html = "<h3>" . $this->getName() . "</h3>";
-        if (!strcmp($this->getUniversity(), "")) {
+        if ($this->getUniversity() !== null and strcmp($this->getUniversity(), "") != 0) {
             $html = $html . "College: " . $this->getUniversity() . "<br>";
         }
-        if ($this->getGraduationYear() != null) {
+        if ($this->getGraduationYear() !== null and strcmp($this->getGraduationYear(), "") != 0) {
             $html = $html . "Graduation Year: " . $this->getGraduationYear() . "<br>";
         }
-        if ($this->getPrimMajor() != null) {
+        if ($this->getPrimMajor() !== null and strcmp($this->getPrimMajor(),"") == 0) {
             $html = $html . "Major: " . $this->getPrimMajor() . "<br>";
         }
         if (checkLinkExists($this->linkExt)) {

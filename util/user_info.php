@@ -20,6 +20,10 @@ class UserStudent implements User {
         $this->display = DisplayStudent::fromUserID($userID, $username); 
     }
 
+    public function refresh() {
+        return new UserStudent($this->username, $this->userID, $this->admin);
+    }
+
     public function getUserID() {
         return $this->userID;
     }

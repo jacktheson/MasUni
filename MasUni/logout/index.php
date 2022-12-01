@@ -9,16 +9,16 @@
 <body>
 <?php 
    session_destroy();
+   unset($_SESSION["user"]);
    include_once("../../../util/navbar.php");
    outputNavBar(1);
 
 ?>
-    <div class="form">
-        <p>You have logged out successfully.<br>
-		Thank you for choosing MasUni!<br><br></p>
-
-	<p class='link'>Click here to <a href='../login'>Login</a> again.</p>
-	<p class="link"><a href='../'>Back to Home</a></p>
-    </div>
+    <center>
+        <div class="form">
+            <p>You have logged out successfully.<br>
+            Thank you for choosing MasUni!<br><br></p>
+        </div>
+    </center>
 </body>
 </html>

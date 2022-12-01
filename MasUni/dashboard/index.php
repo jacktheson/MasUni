@@ -35,10 +35,20 @@ to prospective students across the country.</p>
         ?>
     </div>
     <?php
+      include_once "../../../util/profile_creation.php";
+      include_once "../../../util/info.php";
       $user = unserialize($_SESSION['user']);
-      selfProfileCreationHTML($user);
-      if (isset($_SESSION["first_name"])) {
-        
+      if ($user instanceof UserStudent) {
+        selfProfileCreationHTML($user);
+        if (isset($_REQUEST["first_name"])) {
+          if ($user->getDisplay() === null) {
+            createStudent($user, $_REQUEST);
+            $_SESSION['user'] = serialize($user->refresh());
+          } else {
+            updateStudent($user, $_REQUEST);
+            $_SESSION['user'] = serialize($user->refresh());
+          }
+        }  
       }
     ?>
       <div class="upload">
