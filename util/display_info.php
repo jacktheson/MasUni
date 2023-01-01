@@ -212,16 +212,17 @@ class DisplayStudent implements Display {
         }
     }
 
-    public function toHTMLPortfolioBegin() {
+    public function toHTMLPortfolioBegin()
+    {
         $html = "<h2>" . $this->getName() . "</h2>";
-	if(strcmp($this->getPreferredName(),"") != 0){
-		$html = $html . "<strong>Preferred Name: </strong> " . $this->getPreferredName();
-		$html = $html . "<br>";
-	}
+        if (strcmp($this->getPreferredName(), "") != 0) {
+            $html = $html . "<strong>Preferred Name: </strong> " . $this->getPreferredName();
+            $html = $html . "<br>";
+        }
         if (strcmp($this->getUniversity(), "") != 0) {
             $html = $html . "<strong>College: </strong> " . $this->getUniversity();
             if (strcmp($this->getGraduationMonth(), "") != 0 or strcmp($this->getGraduationYear(), "") != 0) {
-                $html = $html . "&emsp;&emsp;<strong>Graduation: </strong>" . 
+                $html = $html . "&emsp;&emsp;<strong>Graduation: </strong>" .
                     $this->monthIntToName($this->getGraduationMonth()) . " " .
                     $this->getGraduationYear();
             }
@@ -244,10 +245,6 @@ class DisplayStudent implements Display {
         if (strcmp($this->getSkills(), "") != 0) {
             $html = $html . "<strong>Skills: </strong>" . $this->getSkills() . "<br>";
         }
-	if (strcmp($this->getLink(), "") != 0) {
-            $html = $html . "<strong>Link: </strong>" . $this->getLink() . "<br>";
-        }
-        echo $html;
     }
 
     protected function emptyIfDefault($val, $default=null) {

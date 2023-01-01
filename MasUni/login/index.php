@@ -7,9 +7,13 @@
     <meta charset="utf-8"/>
     <title>Login</title>
     <link rel="stylesheet" href="log-page.css"/>
+    <link rel="stylesheet" href="../dashboard/dash_header.css"/>
 </head>
 <body>
 <?php 
+    include_once("../../../util/navbar.php");
+    outputNavBar(1);
+
     require('../../../util/info.php');
     // When form submitted, check and create user session.
     if (isset($_POST['username'])) {

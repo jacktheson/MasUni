@@ -7,6 +7,7 @@ session_start();
     <meta charset="utf-8"/>
     <title>Registration</title>
     <link rel="stylesheet" href="reg-page.css"/>
+    <link rel="stylesheet" href="../dashboard/dash_header.css" />
 </head>
 <body>
 <?php

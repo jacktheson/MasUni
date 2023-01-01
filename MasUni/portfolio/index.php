@@ -10,24 +10,10 @@
     <link rel="stylesheet" href="../dashboard/dash_header.css" />
 </head>
 <body>
-<div class="topnav">
-  <?php 
-    if (!isSet($_SESSION["user"])) {
-      echo "<a href='./login'>User Login</a>";
-    } else {
-      echo "<a href='../logout'>Logout</a>";
-    }
-  ?>
-  <a href="../students">View All Students</a>
-  <a href="../">Home</a>
-  <?php 
-    if (isSet($_SESSION["user"])) {
-      if (unserialize($_SESSION["user"])->isAdmin()) {
-        echo '<a href="../admin" style="float:right">Admin Panel</a>';
-      } 
-    } 
-  ?>
-</div>
+<?php
+	    include_once("../../../util/navbar.php");
+      outputNavBar(1);
+?>
 <?php
 include_once "../../../util/user_info.php";
 if (isset($_GET["p"])) {
