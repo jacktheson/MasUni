@@ -245,6 +245,7 @@ class DisplayStudent implements Display {
         if (strcmp($this->getSkills(), "") != 0) {
             $html = $html . "<strong>Skills: </strong>" . $this->getSkills() . "<br>";
         }
+        echo $html;
     }
 
     protected function emptyIfDefault($val, $default=null) {

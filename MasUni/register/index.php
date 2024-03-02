@@ -46,8 +46,6 @@ session_start();
     <input type="password" placeholder="Enter Password" name="password" required>
         
     <button type="submit">Create Account</button>
-    <p class="link"><a href="../login">Login</a></p>
-    <p class="link"><a href='../'>Back to Home</a></p>
   </div>
 </form>
 <?php

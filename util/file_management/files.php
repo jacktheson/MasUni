@@ -47,7 +47,7 @@ abstract class FileImplementation implements File {
 
 class ImageFile extends FileImplementation {
 	public function toHTML() {
-		$image = "../../../MasUni/" . $this->filePath;
+		$image = "../../MasUni/" . $this->filePath;
 		// Read image path, convert to base64 encoding
 		$imageData = base64_encode(file_get_contents($image));
 
@@ -64,7 +64,7 @@ class VideoFile extends FileImplementation {
 
 	public function toHTML() {
 
-		$vid = "../../../MasUni/" . $this->filePath;
+		$vid = "../../MasUni/" . $this->filePath;
 		// Read video path, convert to base64 encoding
 		$vidData = base64_encode(file_get_contents($vid));
 		

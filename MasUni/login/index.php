@@ -44,9 +44,7 @@
     <input type="password" placeholder="Enter Password" name="password" required>
         
     <button type="submit" value="Login" name="submit">Login</button>
-
-	<p class="link"><a href="../register">New Registration</a></p>
-	<p class="link"><a href='../'>Back to Home</a></p>
+    
   </div>
 
   </form>

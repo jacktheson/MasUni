@@ -10,7 +10,7 @@ function outputNavBar($level=1) {
     }
     $html = '<div class="topnav"> <a href="' . $pathstart . '">Home</a>';
     if (!isSet($_SESSION["user"])) {
-        $html = $html . "<a href='" . $pathstart . "login' style='float:right'>User Login</a>";
+        $html = $html . "<a href='" . $                                                                                                                                                                                                                                                                                                                                                                                                                 pathstart . "login' style='float:right'>User Login</a>";
         $html = $html . "<a href='" . $pathstart . "register'>Register</a>";
     } else {
         $html = $html . "<a href='" . $pathstart . "logout' style='float:right'>Logout</a>";
